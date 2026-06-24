@@ -1,9 +1,21 @@
 import { Cpu, MapPin, Tablet, X } from 'lucide-react'
 import FadeUp from './FadeUp'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 export default function Features() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setSelectedImage(null)
+      }
+    }
+    if (selectedImage) {
+      window.addEventListener('keydown', handleKeyDown)
+    }
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [selectedImage])
   const features = [
     {
       icon: <Cpu size={28} />,

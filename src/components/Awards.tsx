@@ -40,7 +40,7 @@ export default function Awards() {
             </h2>
             <p className="text-[var(--color-muted)] text-[1.0625rem] max-w-2xl">
               Hosted by the Cebu Chamber of Commerce and Industry (CCCI) at Waterfront Cebu City Hotel. 
-              Para.Go was selected as the winner from over 100+ participating teams.
+              Para.Go was selected as the winner from over 70+ participating teams.
             </p>
           </div>
         </FadeUp>
