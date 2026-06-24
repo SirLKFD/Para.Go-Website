@@ -81,52 +81,102 @@ function LandingPage() {
     }
   }, [])
 
+  // Viewport scroll-reveal triggers
+  useEffect(() => {
+    const revealEls = document.querySelectorAll('.reveal, .reveal-stagger, .spaceship-reveal')
+    
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible')
+          }
+        })
+      },
+      { rootMargin: '0px 0px -100px 0px', threshold: 0.1 },
+    )
+
+    revealEls.forEach((el) => revealObserver.observe(el))
+
+    return () => {
+      revealEls.forEach((el) => revealObserver.unobserve(el))
+    }
+  }, [])
+
   return (
     <main className="bg-[#0c0714] text-white">
       {/* 1. Hero Section */}
       <Hero />
 
       {/* 2. Stats Bar */}
-      <Stats />
+      <div className="spaceship-reveal">
+        <Stats />
+      </div>
 
       {/* 3. The Problem */}
-      <TheProblem />
+      <div className="spaceship-reveal">
+        <TheProblem />
+      </div>
 
       {/* 4. Features */}
-      <Features />
+      <div className="spaceship-reveal">
+        <Features />
+      </div>
 
       {/* 5. How It Works */}
-      <HowItWorks />
+      <div className="spaceship-reveal">
+        <HowItWorks />
+      </div>
 
       {/* 6. Competitor Comparison */}
-      <CompetitorComparison />
+      <div className="spaceship-reveal">
+        <CompetitorComparison />
+      </div>
 
       {/* 7. Live Tracker */}
-      <Tracker />
+      <div className="spaceship-reveal">
+        <Tracker />
+      </div>
 
       {/* 8. Beneficiaries */}
-      <Beneficiaries />
+      <div className="spaceship-reveal">
+        <Beneficiaries />
+      </div>
 
       {/* 9. Awards */}
-      <Awards />
+      <div className="spaceship-reveal">
+        <Awards />
+      </div>
 
       {/* 10. Roadmap */}
-      <Roadmap />
+      <div className="spaceship-reveal">
+        <Roadmap />
+      </div>
 
       {/* 11. Business Model */}
-      <BusinessModel />
+      <div className="spaceship-reveal">
+        <BusinessModel />
+      </div>
 
       {/* 12. Partnerships */}
-      <Partnerships />
+      <div className="spaceship-reveal">
+        <Partnerships />
+      </div>
 
       {/* 13. Origins / Story */}
-      <Origins />
+      <div className="spaceship-reveal">
+        <Origins />
+      </div>
 
       {/* 14. Download the App */}
-      <Download />
+      <div className="spaceship-reveal">
+        <Download />
+      </div>
 
       {/* 15. Contact / CTA */}
-      <Contact />
+      <div className="spaceship-reveal">
+        <Contact />
+      </div>
     </main>
   )
 }

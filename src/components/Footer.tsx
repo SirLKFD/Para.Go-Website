@@ -18,7 +18,7 @@ export default function Footer() {
   ]
 
   return (
-    <footer className="bg-[#0c0714] border-t border-[var(--color-border)] pt-16 pb-8">
+    <footer className="bg-[var(--bg-base)] transition-colors duration-1000 border-t border-[var(--color-border)] pt-16 pb-8">
       <div className="max-w-[1200px] mx-auto px-4 lg:px-6">
         
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-8 mb-16">

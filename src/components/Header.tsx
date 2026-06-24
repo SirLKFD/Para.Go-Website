@@ -57,6 +57,12 @@ export default function Header() {
     }
   }, [])
 
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    document.body.style.overflow = isMobileMenuOpen ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
+  }, [isMobileMenuOpen])
+
   const dismissBanner = () => {
     setIsBannerVisible(false)
     sessionStorage.setItem('bannerDismissed', 'true')
@@ -64,6 +70,19 @@ export default function Header() {
 
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false)
+  }
+
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    const element = document.getElementById(id)
+    if (element) {
+      e.preventDefault()
+      setIsMobileMenuOpen(false)
+      element.scrollIntoView({ behavior: 'smooth' })
+      setActiveSection(id)
+      window.history.pushState(null, '', `/#${id}`)
+    } else {
+      setIsMobileMenuOpen(false)
+    }
   }
 
 
@@ -116,6 +135,7 @@ export default function Header() {
                 <a
                   key={link.id}
                   href={`/#${link.id}`}
+                  onClick={(e) => handleNavClick(e, link.id)}
                   className={`relative py-1 text-sm font-medium transition-colors hover:text-[var(--color-gold)] uppercase tracking-[0.12em] whitespace-nowrap ${
                     activeSection === link.id ? 'text-[var(--color-gold)]' : 'text-[var(--color-muted)]'
                   }`}
@@ -130,6 +150,7 @@ export default function Header() {
             
             <a 
               href="/#contact"
+              onClick={(e) => handleNavClick(e, 'contact')}
               className="bg-[var(--color-gold)] !text-[#0c0714] px-6 py-2.5 rounded-sm font-semibold hover:bg-white transition-colors uppercase tracking-[0.12em] text-xs whitespace-nowrap"
             >
               Partner With Us
@@ -157,7 +178,7 @@ export default function Header() {
             <a
               key={link.id}
               href={`/#${link.id}`}
-              onClick={closeMobileMenu}
+              onClick={(e) => handleNavClick(e, link.id)}
               className="text-2xl font-display font-semibold text-[var(--color-text)] hover:text-[var(--color-gold)]"
             >
               {link.name}
@@ -165,7 +186,7 @@ export default function Header() {
           ))}
           <a 
             href="/#contact"
-            onClick={closeMobileMenu}
+            onClick={(e) => handleNavClick(e, 'contact')}
             className="bg-[var(--color-gold)] !text-[#0c0714] px-6 py-4 mt-4 text-center rounded-sm font-bold text-lg hover:bg-white transition-colors uppercase tracking-[0.12em]"
           >
             Partner With Us

@@ -26,7 +26,7 @@ export default function Features() {
   ]
 
   return (
-    <section id="features" className="py-24 bg-[var(--color-bg)] relative overflow-hidden">
+    <section id="features" className="py-24 bg-[var(--bg-base)] transition-colors duration-1000 relative overflow-hidden">
       {/* Background ambient light */}
       <div className="absolute top-1/2 left-0 -translate-y-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-[var(--color-surface)] rounded-full blur-[100px] opacity-50 z-0 pointer-events-none"></div>
 

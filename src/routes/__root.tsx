@@ -1,6 +1,7 @@
 import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
+import { useEffect } from 'react'
 import Footer from '../components/Footer'
 import Header from '../components/Header'
 
@@ -110,6 +111,48 @@ export const Route = createRootRoute({
 })
 
 function RootDocument({ children }: { children: React.ReactNode }) {
+  // Setup scroll variables on native scroll
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    // Scroll listener for CSS variables
+    const handleScroll = () => {
+      const scrolled = window.scrollY
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight
+      const percent = Math.min(1, scrolled / Math.max(1, maxScroll))
+      document.documentElement.style.setProperty('--scroll-y', `${scrolled}px`)
+      document.documentElement.style.setProperty('--scroll-percent', `${percent}`)
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    handleScroll()
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
+
+  // Background color shifting based on active section
+  useEffect(() => {
+    const handleActiveSection = (e: Event) => {
+      const customEvent = e as CustomEvent<string>
+      const section = customEvent.detail
+      
+      let bg = '#0c0714' // Base Deep Purple-Black
+      if (section === 'tracker' || section === 'download') {
+        bg = '#060e22' // Dark Celestial Navy
+      } else if (section === 'why' || section === 'beneficiaries' || section === 'awards' || section === 'partners' || section === 'contact') {
+        bg = '#090510' // Transition shade
+      }
+      
+      document.documentElement.style.setProperty('--bg-base', bg)
+    }
+
+    window.addEventListener('active-section-changed', handleActiveSection)
+    return () => {
+      window.removeEventListener('active-section-changed', handleActiveSection)
+    }
+  }, [])
+
   return (
     <html lang="en" className="dark">
       <head>

@@ -2,7 +2,7 @@ import FadeUp from './FadeUp'
 
 export default function Download() {
   return (
-    <section id="download" className="py-24 bg-[var(--color-bg)] border-y border-[var(--color-border)]">
+    <section id="download" className="py-24 bg-[var(--bg-base)] transition-colors duration-1000 border-y border-[var(--color-border)]">
       <div className="max-w-[1200px] mx-auto px-4 lg:px-6">
         
         <FadeUp>

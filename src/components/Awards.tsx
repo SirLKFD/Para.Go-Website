@@ -28,7 +28,7 @@ export default function Awards() {
   ]
 
   return (
-    <section id="awards" className="py-24 bg-[var(--color-bg)]">
+    <section id="awards" className="py-24 bg-[var(--bg-base)] transition-colors duration-1000">
       <div className="max-w-[1200px] mx-auto px-4 lg:px-6 relative z-10">
         
         <FadeUp>

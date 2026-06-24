@@ -50,6 +50,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   letter-spacing: 0.05em;
   scroll-behavior: smooth;
+  transition: background-color 1.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 a {
@@ -410,3 +411,163 @@ pre code {
 .gps-glow-node {
   animation: gps-glow 2s ease-in-out infinite;
 }
+
+/* ── Scroll Reveal & Spaceship Animation System ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Spaceship.com Scale Reveal */
+.spaceship-reveal {
+  opacity: 0;
+  transform: translateY(40px) scale(0.96);
+  transition: opacity 1.0s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 1.0s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
+}
+
+.spaceship-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Staggered children reveal */
+.reveal-stagger > * {
+  opacity: 0;
+  transform: translateY(24px) scale(0.98);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-stagger.is-visible > *:nth-child(1) { transition-delay: 0ms; opacity: 1; transform: translateY(0) scale(1); }
+.reveal-stagger.is-visible > *:nth-child(2) { transition-delay: 80ms; opacity: 1; transform: translateY(0) scale(1); }
+.reveal-stagger.is-visible > *:nth-child(3) { transition-delay: 160ms; opacity: 1; transform: translateY(0) scale(1); }
+.reveal-stagger.is-visible > *:nth-child(4) { transition-delay: 240ms; opacity: 1; transform: translateY(0) scale(1); }
+
+/* Clip-path reveal for titles */
+.text-mask-container {
+  overflow: hidden;
+  position: relative;
+}
+
+.text-mask-reveal {
+  display: block;
+  transform: translateY(100%);
+  transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.is-visible .text-mask-reveal,
+.reveal.is-visible .text-mask-reveal {
+  transform: translateY(0);
+}
+
+/* ── Passive Dark Background Map ── */
+.hero-map-background {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  filter: brightness(0.22) contrast(1.2) saturate(0.5) hue-rotate(10deg);
+}
+
+.hero-map-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(circle at center, transparent 10%, rgba(12, 7, 20, 0.6) 50%, #0c0714 85%),
+              linear-gradient(to bottom, #0c0714 0%, transparent 10%, transparent 90%, #0c0714 100%),
+              linear-gradient(to right, #0c0714 0%, transparent 10%, transparent 90%, #0c0714 100%);
+}
+
+/* Custom Live Nodes Pulsing Markers */
+.custom-jeepney-dot {
+  background: none !important;
+  border: none !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.jeepney-pulse {
+  display: block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--color-gold) !important;
+  box-shadow: 0 0 8px var(--color-gold), 0 0 16px var(--color-gold);
+  position: relative;
+}
+
+.jeepney-pulse::after {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  right: -6px;
+  bottom: -6px;
+  border-radius: 50%;
+  border: 1.5px solid var(--color-gold);
+  opacity: 0;
+  animation: jeepney-ring 2s infinite cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+@keyframes jeepney-ring {
+  0% {
+    transform: scale(0.2);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}
+
+/* Clean up Leaflet pane defaults */
+#hero-map {
+  background: transparent !important;
+}
+.leaflet-pane {
+  z-index: 1 !important;
+}
+.leaflet-tile-pane {
+  z-index: 1 !important;
+}
+.leaflet-marker-pane {
+  z-index: 2 !important;
+}
+
+/* ── 3D Hero Mockups Perspective & Hover ── */
+.hero-phone-container {
+  transform: rotateY(12deg) rotateX(4deg) rotateZ(-2deg);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  box-shadow: -15px 15px 40px rgba(0, 0, 0, 0.6);
+}
+
+.hero-phone-container:hover {
+  transform: rotateY(2deg) rotateX(0deg) rotateZ(0deg) translate3d(5px, -15px, 25px) scale(1.03) !important;
+  box-shadow: -25px 25px 50px rgba(0, 0, 0, 0.8), 0 0 35px rgba(252, 209, 22, 0.15);
+}
+
+.hero-tablet-container {
+  transform: rotateY(-12deg) rotateX(4deg) rotateZ(2deg);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  box-shadow: 15px 15px 40px rgba(0, 0, 0, 0.6);
+}
+
+.hero-tablet-container:hover {
+  transform: rotateY(-2deg) rotateX(0deg) rotateZ(0deg) translate3d(-5px, -15px, 25px) scale(1.03) !important;
+  box-shadow: 35px 35px 50px rgba(0, 0, 0, 0.8), 0 0 35px rgba(100, 40, 200, 0.2);
+}
+
+
