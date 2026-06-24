@@ -1,44 +1,39 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useEffect } from 'react'
 
-// Modular components import
+// Components
 import Hero from '../components/Hero'
-import Showcase from '../components/Showcase'
-import Tracker from '../components/Tracker'
+import Stats from '../components/Stats'
+import TheProblem from '../components/TheProblem'
 import Features from '../components/Features'
-import Fares from '../components/Fares'
-import Safety from '../components/Safety'
-import Fleet from '../components/Fleet'
+import HowItWorks from '../components/HowItWorks'
+import CompetitorComparison from '../components/CompetitorComparison'
+import Tracker from '../components/Tracker'
+import Beneficiaries from '../components/Beneficiaries'
+import Awards from '../components/Awards'
+import Roadmap from '../components/Roadmap'
+import BusinessModel from '../components/BusinessModel'
+import Partnerships from '../components/Partnerships'
 import Origins from '../components/Origins'
-import Help from '../components/Help'
-import Banner from '../components/Banner'
-
-// Animated transit separators import
-import {
-  TransitDividerWave,
-  TransitDividerTracks,
-  TransitDividerChevrons,
-  TransitDividerNfc,
-  TransitDividerGps,
-} from '../components/TransitDividers'
+import Download from '../components/Download'
+import Contact from '../components/Contact'
 
 export const Route = createFileRoute('/')({
   head: () => ({
     meta: [
-      { title: 'Para.Go - Smart Modern Jeepney Transit Service in Cebu' },
-      { name: 'description', content: 'Experience Cebu\'s smartest modern jeepney transit service. Real-time GPS vehicle tracking, automatic cabin temperature cooling, and cashless NFC tap boarding pass by CIT-U graduates.' },
+      { title: 'Para.Go - Cebu\'s Smart Jeepney Transit System' },
+      { name: 'description', content: 'Cebu\'s Open Track Champion smart transit system. IoT hardware, mobile apps, and cashless fares for jeepneys.' },
       { name: 'keywords', content: 'Para.Go, smart jeepney Cebu, modern public transport, Cebu transit tracker, cashless fare cards, CIT-University, smart transport system Philippines' },
-      { property: 'og:title', content: 'Para.Go - Cebu\'s Smart Modern Jeepney System' },
-      { property: 'og:description', content: 'Seamlessly tracking coordinates, cashless fare matrix calculations, and automated cabin comfort for Cebuano commuters. Developed by CIT-University.' },
+      { property: 'og:title', content: 'Para.Go - Cebu\'s Smart Jeepney Transit System' },
+      { property: 'og:description', content: 'Cebu\'s Open Track Champion smart transit system. IoT hardware, mobile apps, and cashless fares for jeepneys.' },
       { property: 'og:image', content: 'https://parago.top/og-image.png' },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '630' },
       { property: 'og:image:type', content: 'image/png' },
-      { property: 'og:image:alt', content: 'Para.Go - Cebu\'s Smart Modern Jeepney System' },
       { property: 'og:url', content: 'https://parago.top' },
       { name: 'twitter:card', content: 'summary_large_image' },
-      { name: 'twitter:title', content: 'Para.Go - Cebu\'s Smart Modern Jeepney System' },
-      { name: 'twitter:description', content: 'Seamlessly tracking coordinates, cashless fare matrix calculations, and automated cabin comfort for Cebuano commuters.' },
+      { name: 'twitter:title', content: 'Para.Go - Cebu\'s Smart Jeepney Transit System' },
+      { name: 'twitter:description', content: 'Cebu\'s Open Track Champion smart transit system. IoT hardware, mobile apps, and cashless fares for jeepneys.' },
       { name: 'twitter:image', content: 'https://parago.top/og-image.png' },
     ],
   }),
@@ -48,7 +43,11 @@ export const Route = createFileRoute('/')({
 function LandingPage() {
   // Scroll-Spy Intersection Observer Hook
   useEffect(() => {
-    const sectionIds = ['hero', 'tracker', 'features', 'fares', 'safety', 'fleet', 'origins', 'contact']
+    const sectionIds = [
+      'home', 'problem', 'features', 'how-it-works', 'why', 
+      'tracker', 'beneficiaries', 'awards', 'roadmap', 
+      'model', 'partners', 'origins', 'download', 'contact'
+    ]
     
     const observerOptions = {
       root: null,
@@ -82,46 +81,102 @@ function LandingPage() {
     }
   }, [])
 
+  // Viewport scroll-reveal triggers
+  useEffect(() => {
+    const revealEls = document.querySelectorAll('.reveal, .reveal-stagger, .spaceship-reveal')
+    
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible')
+          }
+        })
+      },
+      { rootMargin: '0px 0px -100px 0px', threshold: 0.1 },
+    )
+
+    revealEls.forEach((el) => revealObserver.observe(el))
+
+    return () => {
+      revealEls.forEach((el) => revealObserver.unobserve(el))
+    }
+  }, [])
+
   return (
-    <main className="page-wrap px-4 py-8 md:py-16">
+    <main className="bg-[#0c0714] text-white">
       {/* 1. Hero Section */}
       <Hero />
-      <TransitDividerWave />
 
-      {/* 2. App & Pass Showcase */}
-      <Showcase />
-      <TransitDividerTracks />
+      {/* 2. Stats Bar */}
+      <div className="spaceship-reveal">
+        <Stats />
+      </div>
 
-      {/* 3. Live Route Tracker Map */}
-      <Tracker />
-      <TransitDividerChevrons />
+      {/* 3. The Problem */}
+      <div className="spaceship-reveal">
+        <TheProblem />
+      </div>
 
-      {/* 4. Transit Features List */}
-      <Features />
-      <TransitDividerNfc />
+      {/* 4. Features */}
+      <div className="spaceship-reveal">
+        <Features />
+      </div>
 
-      {/* 5. GPS Fare Calculation Guide */}
-      <Fares />
-      <TransitDividerGps />
+      {/* 5. How It Works */}
+      <div className="spaceship-reveal">
+        <HowItWorks />
+      </div>
 
-      {/* 6. Safety & Automated Climate */}
-      <Safety />
-      <TransitDividerWave />
+      {/* 6. Competitor Comparison */}
+      <div className="spaceship-reveal">
+        <CompetitorComparison />
+      </div>
 
-      {/* 7. Operator Solutions & Tablet Mockup */}
-      <Fleet />
-      <TransitDividerChevrons />
+      {/* 7. Live Tracker */}
+      <div className="spaceship-reveal">
+        <Tracker />
+      </div>
 
-      {/* 8. CIT-U Origins Collage */}
-      <Origins />
-      <TransitDividerChevrons />
+      {/* 8. Beneficiaries */}
+      <div className="spaceship-reveal">
+        <Beneficiaries />
+      </div>
 
-      {/* 9. Commuter Trip Logs Inquiries */}
-      <Help />
-      <TransitDividerChevrons />
+      {/* 9. Awards */}
+      <div className="spaceship-reveal">
+        <Awards />
+      </div>
 
-      {/* 10. Thank You Redirection Banner */}
-      <Banner />
+      {/* 10. Roadmap */}
+      <div className="spaceship-reveal">
+        <Roadmap />
+      </div>
+
+      {/* 11. Business Model */}
+      <div className="spaceship-reveal">
+        <BusinessModel />
+      </div>
+
+      {/* 12. Partnerships */}
+      <div className="spaceship-reveal">
+        <Partnerships />
+      </div>
+
+      {/* 13. Origins / Story */}
+      <div className="spaceship-reveal">
+        <Origins />
+      </div>
+
+      {/* 14. Download the App */}
+      <div className="spaceship-reveal">
+        <Download />
+      </div>
+
+      {/* 15. Contact / CTA */}
+      <div className="spaceship-reveal">
+        <Contact />
+      </div>
     </main>
   )
 }
