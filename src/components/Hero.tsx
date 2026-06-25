@@ -4,148 +4,64 @@ import PhoneModel3D from './PhoneModel3D'
 
 export default function Hero() {
   useEffect(() => {
+    const L = (window as any).L
+    if (!L) return
+
     let mapInstance: any = null
-    let moveInterval: any = null
-    let cycleInterval: any = null
+    let animationFrameId: number
     let destroyed = false
 
-    const initMap = (L: any) => {
-      if (destroyed) return
+    const mapContainer = document.getElementById('hero-map')
+    if (!mapContainer || mapContainer.hasAttribute('data-map-initialized')) return
+    mapContainer.setAttribute('data-map-initialized', 'true')
 
-      const mapContainer = document.getElementById('hero-map')
-      if (!mapContainer || mapContainer.hasAttribute('data-map-initialized')) return
-      mapContainer.setAttribute('data-map-initialized', 'true')
+    const centers = [
+      { name: 'Cebu IT Park', coords: [10.3292, 123.9061] as [number, number] },
+      { name: 'Fuente Osmeña', coords: [10.3164, 123.8907] as [number, number] },
+      { name: 'CCLEX Bridge', coords: [10.2798, 123.9073] as [number, number] },
+      { name: 'SM Seaside', coords: [10.2818, 123.8809] as [number, number] },
+      { name: 'CIT University', coords: [10.2944, 123.8714] as [number, number] }
+    ]
 
-      const centers = [
-        { name: 'Cebu IT Park', coords: [10.3292, 123.9061] as [number, number] },
-        { name: 'Fuente Osmeña', coords: [10.3164, 123.8907] as [number, number] },
-        { name: 'CCLEX Bridge', coords: [10.2798, 123.9073] as [number, number] },
-        { name: 'SM Seaside', coords: [10.2818, 123.8809] as [number, number] },
-        { name: 'CIT University', coords: [10.2944, 123.8714] as [number, number] }
-      ]
+    mapInstance = L.map('hero-map', {
+      zoomControl: false,
+      attributionControl: false,
+      dragging: false,
+      touchZoom: false,
+      doubleClickZoom: false,
+      scrollWheelZoom: false,
+      boxZoom: false,
+      keyboard: false
+    }).setView(centers[1].coords, 14) // Center at Fuente Osmeña
 
-      mapInstance = L.map('hero-map', {
-        zoomControl: false,
-        attributionControl: false,
-        dragging: false,
-        touchZoom: false,
-        doubleClickZoom: false,
-        scrollWheelZoom: false,
-        boxZoom: false,
-        keyboard: false
-      }).setView(centers[0].coords, 14)
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png', {
+      maxZoom: 20
+    }).addTo(mapInstance)
 
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-        maxZoom: 20
-      }).addTo(mapInstance)
+    let angle = 0
+    const centerLat = 10.3164 // Fuente Osmeña (central Cebu City)
+    const centerLng = 123.8907
+    const radiusLat = 0.005 // Latitude pan amplitude
+    const radiusLng = 0.010 // Longitude pan amplitude
 
-      const goldIcon = L.divIcon({
-        className: 'custom-jeepney-dot',
-        html: '<span class="jeepney-pulse"></span>',
-        iconSize: [8, 8],
-        iconAnchor: [4, 4]
-      })
-
-      const jeepneysCount = 15
-      const markers: any[] = []
-      const offsets = Array.from({ length: jeepneysCount }, () => ({
-        lat: (Math.random() - 0.5) * 0.012,
-        lng: (Math.random() - 0.5) * 0.012,
-        speedLat: (Math.random() - 0.5) * 0.0001,
-        speedLng: (Math.random() - 0.5) * 0.0001
-      }))
-
-      for (let i = 0; i < jeepneysCount; i++) {
-        const startPos = [centers[0].coords[0] + offsets[i].lat, centers[0].coords[1] + offsets[i].lng]
-        const marker = L.marker(startPos, { icon: goldIcon }).addTo(mapInstance)
-        markers.push(marker)
-      }
-
-      moveInterval = setInterval(() => {
-        if (!mapInstance) return
-        const currentCenter = mapInstance.getCenter()
-        for (let i = 0; i < jeepneysCount; i++) {
-          offsets[i].lat += offsets[i].speedLat
-          offsets[i].lng += offsets[i].speedLng
-
-          if (Math.abs(offsets[i].lat) > 0.015) offsets[i].speedLat *= -1
-          if (Math.abs(offsets[i].lng) > 0.015) offsets[i].speedLng *= -1
-
-          const m = markers[i]
-          if (m) {
-            m.setLatLng([currentCenter.lat + offsets[i].lat, currentCenter.lng + offsets[i].lng])
-          }
-        }
-      }, 100)
-
-      let currentIndex = 0
-      cycleInterval = setInterval(() => {
-        if (!mapInstance) return
-        currentIndex = (currentIndex + 1) % centers.length
-        mapInstance.flyTo(centers[currentIndex].coords, 14, {
-          animate: true,
-          duration: 7,
-          easeLinearity: 0.25
-        })
-      }, 15000)
+    const panLoop = () => {
+      if (destroyed || !mapInstance) return
+      angle += 0.003 // Fluid cinematic pan speed
+      const lat = centerLat + Math.sin(angle) * radiusLat
+      const lng = centerLng + Math.cos(angle * 0.5) * radiusLng // Lissajous figure-8 pattern
+      mapInstance.setView([lat, lng], 14, { animate: false })
+      animationFrameId = requestAnimationFrame(panLoop)
     }
 
-    const loadAssets = () => {
-      const L = (window as any).L
-      if (L) {
-        initMap(L)
-        return null
-      }
-
-      if (!document.getElementById('leaflet-css-cdn')) {
-        const link = document.createElement('link')
-        link.id = 'leaflet-css-cdn'
-        link.rel = 'stylesheet'
-        link.href = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css'
-        document.head.appendChild(link)
-      }
-
-      let script = document.getElementById('leaflet-js-cdn') as HTMLScriptElement
-      if (!script) {
-        script = document.createElement('script')
-        script.id = 'leaflet-js-cdn'
-        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js'
-        script.async = true
-        document.body.appendChild(script)
-      }
-
-      const handleScriptLoad = () => {
-        const leaf = (window as any).L
-        if (leaf) initMap(leaf)
-      }
-
-      script.addEventListener('load', handleScriptLoad)
-
-      const poll = setInterval(() => {
-        const leaf = (window as any).L
-        if (leaf) {
-          clearInterval(poll)
-          initMap(leaf)
-        }
-      }, 200)
-
-      return () => {
-        script.removeEventListener('load', handleScriptLoad)
-        clearInterval(poll)
-      }
-    }
-
-    const cleanupLoad = loadAssets()
+    // Start continuous panning loop
+    panLoop()
 
     return () => {
       destroyed = true
-      if (cleanupLoad) cleanupLoad()
-      if (moveInterval) clearInterval(moveInterval)
-      if (cycleInterval) clearInterval(cycleInterval)
+      if (animationFrameId) cancelAnimationFrame(animationFrameId)
       if (mapInstance) {
         mapInstance.remove()
       }
-      const mapContainer = document.getElementById('hero-map')
       if (mapContainer) {
         mapContainer.removeAttribute('data-map-initialized')
         mapContainer.innerHTML = ''
@@ -165,16 +81,10 @@ export default function Hero() {
 
         {/* Radial orange glow top right */}
         <div className="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full bg-[var(--color-orange)]/20 blur-[120px] pointer-events-none z-10"></div>
-        
-        {/* Subtle CSS diagonal lines / grid */}
-        <div className="absolute inset-0 z-10 pointer-events-none" style={{
-          opacity: 0.03,
-          backgroundImage: 'linear-gradient(45deg, #ffffff 25%, transparent 25%, transparent 75%, #ffffff 75%, #ffffff), linear-gradient(45deg, #ffffff 25%, transparent 25%, transparent 75%, #ffffff 75%, #ffffff)',
-          backgroundSize: '40px 40px',
-          backgroundPosition: '0 0, 20px 20px'
-        }}></div>
+
       </div>
-      <div className="max-w-[1200px] mx-auto px-4 lg:px-6 relative z-10 w-full">
+
+      <div className="max-w-[1200px] mx-auto px-4 lg:px-6 relative z-10 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 xl:gap-24 items-center">
           
           {/* Left Column: Text */}
