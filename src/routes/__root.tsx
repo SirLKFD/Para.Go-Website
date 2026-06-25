@@ -76,6 +76,10 @@ export const Route = createRootRoute({
         href: appCss,
       },
       {
+        rel: 'stylesheet',
+        href: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css',
+      },
+      {
         rel: 'icon',
         href: '/favicon.ico',
       },
@@ -157,6 +161,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
     <html lang="en" className="dark">
       <head>
         <HeadContent />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

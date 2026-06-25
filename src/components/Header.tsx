@@ -1,8 +1,9 @@
-import { Link } from '@tanstack/react-router'
+import { Link, useNavigate } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
 import { Menu, X, Trophy } from 'lucide-react'
 
 export default function Header() {
+  const navigate = useNavigate()
   const [activeSection, setActiveSection] = useState('')
   const [isScrolled, setIsScrolled] = useState(false)
   const [isBannerVisible, setIsBannerVisible] = useState(true)
@@ -79,7 +80,11 @@ export default function Header() {
       setIsMobileMenuOpen(false)
       element.scrollIntoView({ behavior: 'smooth' })
       setActiveSection(id)
-      window.history.pushState(null, '', `/#${id}`)
+      navigate({
+        hash: id,
+        replace: true,
+        resetScroll: false
+      })
     } else {
       setIsMobileMenuOpen(false)
     }
@@ -119,10 +124,13 @@ export default function Header() {
           {/* Logo */}
           <Link
             to="/"
+            resetScroll={false}
             className="flex items-center gap-3 group shrink-0 mr-12 lg:mr-24"
-            onClick={() => {
+            onClick={(e) => {
+              e.preventDefault()
               window.scrollTo({ top: 0, behavior: 'smooth' })
               setActiveSection('home')
+              navigate({ to: '/', replace: true, resetScroll: false })
             }}
           >
             <img src="/parago-icon.png" alt="Para.Go Logo" className="h-10 w-auto" />
