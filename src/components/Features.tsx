@@ -3,6 +3,8 @@ import FadeUp from './FadeUp'
 import { useState, useEffect } from 'react'
 import PhoneModel3D from './PhoneModel3D'
 import TabletModel3D from './TabletModel3D'
+import ModuleModel3D from './ModuleModel3D'
+import JeepneyModel3D from './JeepneyModel3D'
 
 export default function Features() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
@@ -48,26 +50,14 @@ export default function Features() {
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [isRendered])
 
-  const features = [
-    {
-      icon: <Cpu size={28} />,
-      title: 'Smart Jeepney Module',
-      body: 'An ESP32 unit installed inside the jeepney. Reads RFID cards, monitors cabin temperature every 3 seconds, auto-controls the ventilation fan, updates the LED destination board with live capacity, and streams GPS coordinates to the cloud continuously.',
-      image: '/rfidunit.jpg'
-    },
-    {
-      icon: <MapPin size={28} />,
-      title: 'Commuter Mobile App',
-      body: 'Track jeepneys live on a map. Search routes with transfer options. Tap your NFC card to board and alight — no coins needed. Fares are computed automatically using GPS distance and the LTFRB matrix.',
-      image: '/passenger.jpg'
-    },
-    {
-      icon: <Tablet size={28} />,
-      title: 'Driver Dashboard',
-      body: 'A tablet app mounted in the cabin. Shows live passenger count, cabin temperature, total earnings, trip log, and real-time RFID events. Drivers get the information they need without lifting a finger.',
-      image: '/driver.jpg'
-    }
-  ]
+  const hardwareFeature = {
+    icon: <Cpu size={28} />,
+    title: 'Smart Jeepney Module',
+    body: 'An ESP32 unit installed inside the jeepney. Reads RFID cards, monitors cabin temperature every 3 seconds, auto-controls the ventilation fan, updates the LED destination board with live capacity, and streams GPS coordinates to the cloud continuously.',
+    image: '/rfidunit.jpg'
+  }
+
+
 
   return (
     <section id="features" className="py-24 transition-colors duration-1000 relative overflow-hidden">
@@ -88,46 +78,249 @@ export default function Features() {
           </div>
         </FadeUp>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {features.map((feat, idx) => (
-            <FadeUp key={idx} delay={idx * 150}>
-              <div 
-                className="bg-[var(--color-surface)] border-l-4 border-l-[var(--color-gold)] p-8 rounded-r-sm transition-transform duration-200 ease-out hover:-translate-y-1 flex flex-col h-full shadow-lg group"
-              >
-                <div 
-                  className="w-full h-56 rounded-md mb-6 border border-[var(--color-border)] shadow-md overflow-hidden bg-black flex items-center justify-center relative cursor-pointer"
-                  onClick={() => {
-                    if (idx === 0) {
-                      openModal('image', feat.image)
-                    } else if (idx === 1) {
-                      openModal('phone')
-                    } else if (idx === 2) {
-                      openModal('tablet')
-                    }
-                  }}
+        {/* Hardware Layer: Smart Jeepney Module Infographic */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center mb-16 relative">
+          
+          {/* Left: Info */}
+          <div className="lg:col-span-7 flex flex-col justify-center">
+            <FadeUp>
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)] flex items-center justify-center text-[var(--color-gold)] shadow-inner">
+                  {hardwareFeature.icon}
+                </div>
+                <span className="font-sans font-bold text-xs uppercase tracking-[0.15em] text-[var(--color-gold)]">
+                  The Hardware Layer
+                </span>
+              </div>
+              <h3 className="font-display font-semibold text-2xl sm:text-3xl text-[var(--color-text)] mb-5">
+                {hardwareFeature.title}
+              </h3>
+              <p className="text-[var(--color-muted)] text-[1.0625rem] leading-relaxed mb-6">
+                {hardwareFeature.body}
+              </p>
+
+              {/* Hardware specifications list */}
+              <ul className="space-y-4 mb-8 text-[1.0625rem] text-[var(--color-muted)]">
+                <li className="flex items-start gap-3">
+                  <span className="text-[var(--color-gold)] font-bold mt-0.5">•</span>
+                  <span><strong>IoT-Enabled Tracking:</strong> Continuous real-time GPS stream coordinates map positions to commuters instantly.</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-[var(--color-gold)] font-bold mt-0.5">•</span>
+                  <span><strong>NFC Cashless Fare:</strong> Seamless tap-to-board transaction processing via on-board RFID reader.</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-[var(--color-gold)] font-bold mt-0.5">•</span>
+                  <span><strong>Smart Cabin Climate:</strong> Automated passenger cabin fan control triggering on real-time temperature sensors.</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-[var(--color-gold)] font-bold mt-0.5">•</span>
+                  <span><strong>LED Destination Updates:</strong> Dynamically publishes passenger count metrics and route details on the exterior display.</span>
+                </li>
+              </ul>
+
+              <div className="flex flex-wrap gap-4">
+                <button
+                  onClick={() => openModal('image', hardwareFeature.image)}
+                  className="demo-button text-xs uppercase tracking-wider"
                 >
-                  <img src={feat.image} alt={feat.title} className="w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105 opacity-90 group-hover:opacity-100" />
-                  
-                  {/* Click to expand overlay */}
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <span className="text-white text-xs font-bold tracking-wider uppercase border border-white/50 px-3.5 py-2 rounded-full backdrop-blur-sm">
-                      {idx === 0 ? 'View Photo' : 'Interactive 3D'}
-                    </span>
-                  </div>
-                </div>
-                <div className="w-12 h-12 rounded-xl bg-[var(--color-bg)] flex items-center justify-center text-[var(--color-gold)] mb-4 shadow-inner">
-                  {feat.icon}
-                </div>
-                <h3 className="font-display font-medium text-[1.25rem] text-[var(--color-text)] mb-4">
-                  {feat.title}
-                </h3>
-                <p className="text-[var(--color-muted)] text-[1.0625rem] leading-relaxed mb-4 flex-grow">
-                  {feat.body}
-                </p>
+                  View Physical Unit Photo
+                </button>
               </div>
             </FadeUp>
-          ))}
+          </div>
+
+          {/* Right: 3D CAD STL Model Viewer */}
+          <div className="lg:col-span-5 relative w-full">
+            <FadeUp delay={150}>
+              <div className="relative w-full h-full">
+                <ModuleModel3D />
+              </div>
+            </FadeUp>
+          </div>
+
         </div>
+
+        {/* Sleek divider track */}
+        <div className="relative h-px bg-[var(--color-border)] w-full mb-24">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[var(--color-bg)] px-4 text-xs font-bold tracking-[0.2em] text-[var(--color-muted)] uppercase">
+            Software Layers
+          </div>
+        </div>
+
+        {/* Commuter Mobile App (3D Left, Text Right) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center mb-24 relative">
+          
+          {/* Left: 3D Phone Model */}
+          <div className="lg:col-span-5 relative w-full flex justify-center order-2 lg:order-1">
+            <FadeUp delay={150}>
+              <div className="relative w-[220px] sm:w-[280px] md:w-[320px] aspect-[9/19] scale-105">
+                <PhoneModel3D textureUrl="/passenger.jpg" />
+              </div>
+            </FadeUp>
+          </div>
+
+          {/* Right: Info */}
+          <div className="lg:col-span-7 flex flex-col justify-center order-1 lg:order-2">
+            <FadeUp>
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)] flex items-center justify-center text-[var(--color-gold)] shadow-inner">
+                  <MapPin size={28} />
+                </div>
+                <span className="font-sans font-bold text-xs uppercase tracking-[0.15em] text-[var(--color-gold)]">
+                  The Commuter Layer
+                </span>
+              </div>
+              <h3 className="font-display font-semibold text-2xl sm:text-3xl text-[var(--color-text)] mb-5">
+                Commuter Mobile App
+              </h3>
+              <p className="text-[var(--color-muted)] text-[1.0625rem] leading-relaxed mb-6">
+                Track jeepneys live on a map. Search routes with transfer options. Tap your NFC card to board and alight — no coins needed. Fares are computed automatically using GPS distance and the LTFRB matrix.
+              </p>
+
+              {/* Commuter specifications list */}
+              <ul className="space-y-4 mb-8 text-[1.0625rem] text-[var(--color-muted)]">
+                <li className="flex items-start gap-3">
+                  <span className="text-[var(--color-gold)] font-bold mt-0.5">•</span>
+                  <span><strong>Live Transit Map:</strong> Track jeepney locations and estimated arrival times in real-time.</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-[var(--color-gold)] font-bold mt-0.5">•</span>
+                  <span><strong>Smart Route Planner:</strong> Find optimal routes with multi-stop transfer suggestions.</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-[var(--color-gold)] font-bold mt-0.5">•</span>
+                  <span><strong>Distance-Based Fares:</strong> Automatic calculations using GPS distance and official LTFRB matrices.</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-[var(--color-gold)] font-bold mt-0.5">•</span>
+                  <span><strong>NFC Fare Integration:</strong> Tap-to-pay using digital card balances with automated wallet sync.</span>
+                </li>
+              </ul>
+
+              <div className="flex flex-wrap gap-4">
+                <button
+                  onClick={() => openModal('image', '/passenger.jpg')}
+                  className="demo-button text-xs uppercase tracking-wider"
+                >
+                  View App Screenshot
+                </button>
+              </div>
+            </FadeUp>
+          </div>
+
+        </div>
+
+        {/* Driver Dashboard (Text Left, 3D Right) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center mb-16 relative">
+          
+          {/* Left: Info */}
+          <div className="lg:col-span-7 flex flex-col justify-center">
+            <FadeUp>
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)] flex items-center justify-center text-[var(--color-gold)] shadow-inner">
+                  <Tablet size={28} />
+                </div>
+                <span className="font-sans font-bold text-xs uppercase tracking-[0.15em] text-[var(--color-gold)]">
+                  The Operator Layer
+                </span>
+              </div>
+              <h3 className="font-display font-semibold text-2xl sm:text-3xl text-[var(--color-text)] mb-5">
+                Driver Dashboard
+              </h3>
+              <p className="text-[var(--color-muted)] text-[1.0625rem] leading-relaxed mb-6">
+                A tablet app mounted in the cabin. Shows live passenger count, cabin temperature, total earnings, trip log, and real-time RFID events. Drivers get the information they need without lifting a finger.
+              </p>
+
+              {/* Driver specifications list */}
+              <ul className="space-y-4 mb-8 text-[1.0625rem] text-[var(--color-muted)]">
+                <li className="flex items-start gap-3">
+                  <span className="text-[var(--color-gold)] font-bold mt-0.5">•</span>
+                  <span><strong>Mounted Cabin Display:</strong> Sleek interface designed for minimal driver distraction on the road.</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-[var(--color-gold)] font-bold mt-0.5">•</span>
+                  <span><strong>Real-Time RFID Logging:</strong> Instant visual feed of boarding events and fare confirmations.</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-[var(--color-gold)] font-bold mt-0.5">•</span>
+                  <span><strong>Trip & Analytics Feed:</strong> Track daily earnings, passenger totals, and temperature metrics.</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-[var(--color-gold)] font-bold mt-0.5">•</span>
+                  <span><strong>Automated Logging:</strong> GPS-based dispatch logs auto-submitted to the operator cloud.</span>
+                </li>
+              </ul>
+
+              <div className="flex flex-wrap gap-4">
+                <button
+                  onClick={() => openModal('image', '/driver.jpg')}
+                  className="demo-button text-xs uppercase tracking-wider"
+                >
+                  View Dashboard Screenshot
+                </button>
+              </div>
+            </FadeUp>
+          </div>
+
+          {/* Right: 3D Tablet Model */}
+          <div className="lg:col-span-5 relative w-full flex justify-center">
+            <FadeUp delay={150}>
+              <div className="relative w-[300px] sm:w-[400px] md:w-[450px] aspect-[16/10]">
+                <TabletModel3D textureUrl="/driver.jpg" />
+              </div>
+            </FadeUp>
+          </div>
+
+        </div>
+
+        {/* Sleek divider track */}
+        <div className="relative h-px bg-[var(--color-border)] w-full my-24">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[var(--color-bg)] px-4 text-xs font-bold tracking-[0.2em] text-[var(--color-muted)] uppercase">
+            Ecosystem Integration
+          </div>
+        </div>
+
+        {/* Full Vehicle Integration (3D Model Centered, Text Below) */}
+        <div className="flex flex-col items-center mb-16 relative">
+          
+          {/* Centered 3D Model */}
+          <div className="w-full max-w-[800px] mb-12 flex justify-center">
+            <FadeUp delay={150} className="w-full">
+              <JeepneyModel3D />
+            </FadeUp>
+          </div>
+
+          {/* Text Below */}
+          <div className="max-w-[800px] text-center px-4">
+            <FadeUp>
+              <h3 className="font-display font-semibold text-3xl sm:text-4xl text-[var(--color-text)] mb-6">
+                Connected Vehicle Integration
+              </h3>
+              <p className="text-[var(--color-muted)] text-[1.125rem] leading-relaxed mb-8 max-w-[700px] mx-auto">
+                See how all components unite in the physical vehicle. The Smart Jeepney Module coordinates real-time cabin metrics, NFC transaction feeds, and GPS positions, publishing capacity counts directly to the exterior LED display and syncing with the driver and operator dashboards.
+              </p>
+
+              {/* Specs Grid below text */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left max-w-[750px] mx-auto text-[0.95rem] text-[var(--color-muted)]">
+                <div className="bg-[var(--color-surface)] border-t-2 border-t-[var(--color-gold)] p-5 rounded-sm">
+                  <h4 className="font-bold text-[var(--color-text)] mb-2">Cabin Placement</h4>
+                  <p>The core module fits securely within the driver's reach, processing sensory readings, NFC transactions, and GPS tracking.</p>
+                </div>
+                <div className="bg-[var(--color-surface)] border-t-2 border-t-[var(--color-gold)] p-5 rounded-sm">
+                  <h4 className="font-bold text-[var(--color-text)] mb-2">Exterior Capacity Board</h4>
+                  <p>Updates dynamically to display live occupancy limits (e.g. 17 / 23) and routes to commuters waiting at the curbside.</p>
+                </div>
+                <div className="bg-[var(--color-surface)] border-t-2 border-t-[var(--color-gold)] p-5 rounded-sm">
+                  <h4 className="font-bold text-[var(--color-text)] mb-2">Unified Data Loop</h4>
+                  <p>Streams telemetry data to the operator dashboards, syncing passenger counts, trip progress, and cabin temperature.</p>
+                </div>
+              </div>
+            </FadeUp>
+          </div>
+
+        </div>
+
       </div>
 
       {/* Lightbox / Modal overlay with smooth fade-in/out backdrop */}
@@ -164,34 +357,6 @@ export default function Features() {
               }`}
               onClick={(e) => e.stopPropagation()} 
             />
-          )}
-
-          {/* 3D Model Modal with custom spring scale up/down */}
-          {(modalType === 'phone' || modalType === 'tablet') && (
-            <div 
-              className={`relative flex flex-col items-center justify-center w-full max-w-4xl transition-all duration-500 [transition-timing-function:cubic-bezier(0.34,1.56,0.64,1)] cursor-default ${
-                isTransitioning 
-                  ? 'opacity-0 scale-50 translate-y-16' 
-                  : 'opacity-100 scale-100 translate-y-0'
-              }`}
-              onClick={(e) => e.stopPropagation()}
-            >
-              {modalType === 'phone' ? (
-                <div className="relative w-[220px] sm:w-[280px] md:w-[320px] aspect-[9/19]">
-                  <PhoneModel3D textureUrl="/passenger.jpg" />
-                </div>
-              ) : (
-                <div className="relative w-[300px] sm:w-[480px] md:w-[680px] aspect-[16/10]">
-                  <TabletModel3D textureUrl="/driver.jpg" />
-                </div>
-              )}
-              
-              <p className={`text-white/40 text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] mt-8 text-center animate-pulse pointer-events-none select-none transition-opacity duration-300 ${
-                isTransitioning ? 'opacity-0' : 'opacity-100'
-              }`}>
-                Drag to rotate device in 3D
-              </p>
-            </div>
           )}
         </div>
       )}
