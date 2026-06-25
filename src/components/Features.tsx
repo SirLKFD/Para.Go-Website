@@ -1,21 +1,53 @@
 import { Cpu, MapPin, Tablet, X } from 'lucide-react'
 import FadeUp from './FadeUp'
 import { useState, useEffect } from 'react'
+import PhoneModel3D from './PhoneModel3D'
+import TabletModel3D from './TabletModel3D'
 
 export default function Features() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
+  const [modalType, setModalType] = useState<'phone' | 'tablet' | 'image' | null>(null)
+  const [isRendered, setIsRendered] = useState(false)
+  const [isTransitioning, setIsTransitioning] = useState(false)
+
+  const openModal = (type: 'phone' | 'tablet' | 'image', imagePath?: string) => {
+    if (imagePath) {
+      setSelectedImage(imagePath)
+    }
+    setModalType(type)
+    setIsRendered(true)
+    setIsTransitioning(true)
+    
+    // Allow React to mount the element first, then transition
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        setIsTransitioning(false)
+      })
+    })
+  }
+
+  const closeModal = () => {
+    setIsTransitioning(true)
+    setTimeout(() => {
+      setModalType(null)
+      setSelectedImage(null)
+      setIsRendered(false)
+      setIsTransitioning(false)
+    }, 400) // Match transition duration (400ms)
+  }
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        setSelectedImage(null)
+        closeModal()
       }
     }
-    if (selectedImage) {
+    if (isRendered) {
       window.addEventListener('keydown', handleKeyDown)
     }
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [selectedImage])
+  }, [isRendered])
+
   const features = [
     {
       icon: <Cpu size={28} />,
@@ -38,7 +70,7 @@ export default function Features() {
   ]
 
   return (
-    <section id="features" className="py-24  transition-colors duration-1000 relative overflow-hidden">
+    <section id="features" className="py-24 transition-colors duration-1000 relative overflow-hidden">
       {/* Background ambient light */}
       <div className="absolute top-1/2 left-0 -translate-y-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-[var(--color-surface)] rounded-full blur-[100px] opacity-50 z-0 pointer-events-none"></div>
 
@@ -64,13 +96,23 @@ export default function Features() {
               >
                 <div 
                   className="w-full h-56 rounded-md mb-6 border border-[var(--color-border)] shadow-md overflow-hidden bg-black flex items-center justify-center relative cursor-pointer"
-                  onClick={() => setSelectedImage(feat.image)}
+                  onClick={() => {
+                    if (idx === 0) {
+                      openModal('image', feat.image)
+                    } else if (idx === 1) {
+                      openModal('phone')
+                    } else if (idx === 2) {
+                      openModal('tablet')
+                    }
+                  }}
                 >
                   <img src={feat.image} alt={feat.title} className="w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105 opacity-90 group-hover:opacity-100" />
                   
                   {/* Click to expand overlay */}
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <span className="text-white text-xs font-bold tracking-wider uppercase border border-white/50 px-3 py-1.5 rounded-full backdrop-blur-sm">Click to expand</span>
+                    <span className="text-white text-xs font-bold tracking-wider uppercase border border-white/50 px-3.5 py-2 rounded-full backdrop-blur-sm">
+                      {idx === 0 ? 'View Photo' : 'Interactive 3D'}
+                    </span>
                   </div>
                 </div>
                 <div className="w-12 h-12 rounded-xl bg-[var(--color-bg)] flex items-center justify-center text-[var(--color-gold)] mb-4 shadow-inner">
@@ -88,24 +130,69 @@ export default function Features() {
         </div>
       </div>
 
-      {/* Lightbox Modal */}
-      {selectedImage && (
+      {/* Lightbox / Modal overlay with smooth fade-in/out backdrop */}
+      {isRendered && modalType && (
         <div 
-          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 lg:p-8 animate-in fade-in duration-200"
-          onClick={() => setSelectedImage(null)}
+          className={`fixed inset-0 z-50 flex flex-col items-center justify-center p-4 sm:p-8 transition-all duration-400 ease-out cursor-zoom-out ${
+            isTransitioning 
+              ? 'bg-black/0 backdrop-blur-none' 
+              : 'bg-black/95 backdrop-blur-xl'
+          }`}
+          onClick={closeModal}
         >
+          {/* Close button with smooth fade/scale */}
           <button 
-            className="absolute top-4 right-4 sm:top-8 sm:right-8 text-white p-2 hover:bg-white/10 rounded-full transition-colors z-50"
-            onClick={() => setSelectedImage(null)}
+            className={`absolute top-4 right-4 sm:top-8 sm:right-8 text-white p-2 hover:bg-white/10 rounded-full transition-all duration-300 ease-out z-50 cursor-pointer ${
+              isTransitioning 
+                ? 'opacity-0 scale-75' 
+                : 'opacity-100 scale-100'
+            }`}
+            onClick={closeModal}
           >
             <X size={32} />
           </button>
-          <img 
-            src={selectedImage} 
-            alt="Expanded view" 
-            className="max-w-full max-h-[90vh] object-contain rounded-xl shadow-2xl animate-in zoom-in-95 duration-300" 
-            onClick={(e) => e.stopPropagation()} 
-          />
+
+          {/* Lightbox Image Modal */}
+          {modalType === 'image' && selectedImage && (
+            <img 
+              src={selectedImage} 
+              alt="Expanded view" 
+              className={`max-w-full max-h-[90vh] object-contain rounded-xl shadow-2xl transition-all duration-400 ease-out cursor-default ${
+                isTransitioning 
+                  ? 'opacity-0 scale-90 translate-y-4' 
+                  : 'opacity-100 scale-100 translate-y-0'
+              }`}
+              onClick={(e) => e.stopPropagation()} 
+            />
+          )}
+
+          {/* 3D Model Modal with custom spring scale up/down */}
+          {(modalType === 'phone' || modalType === 'tablet') && (
+            <div 
+              className={`relative flex flex-col items-center justify-center w-full max-w-4xl transition-all duration-500 [transition-timing-function:cubic-bezier(0.34,1.56,0.64,1)] cursor-default ${
+                isTransitioning 
+                  ? 'opacity-0 scale-50 translate-y-16' 
+                  : 'opacity-100 scale-100 translate-y-0'
+              }`}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {modalType === 'phone' ? (
+                <div className="relative w-[220px] sm:w-[280px] md:w-[320px] aspect-[9/19]">
+                  <PhoneModel3D textureUrl="/passenger.jpg" />
+                </div>
+              ) : (
+                <div className="relative w-[300px] sm:w-[480px] md:w-[680px] aspect-[16/10]">
+                  <TabletModel3D textureUrl="/driver.jpg" />
+                </div>
+              )}
+              
+              <p className={`text-white/40 text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] mt-8 text-center animate-pulse pointer-events-none select-none transition-opacity duration-300 ${
+                isTransitioning ? 'opacity-0' : 'opacity-100'
+              }`}>
+                Drag to rotate device in 3D
+              </p>
+            </div>
+          )}
         </div>
       )}
     </section>
