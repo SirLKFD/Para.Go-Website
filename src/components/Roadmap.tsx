@@ -53,12 +53,12 @@ export default function Roadmap() {
               const isEven = idx % 2 === 0
               
               return (
-                <div key={idx} className="relative flex items-center md:justify-between w-full">
+                <div key={idx} className="relative flex items-center w-full md:justify-center py-4">
                   
-                  {/* Left Spacer / Content */}
-                  <div className={`hidden md:block w-5/12 ${isEven ? 'text-right pr-8' : 'order-last text-left pl-8'}`}>
-                    <FadeUp delay={idx * 150}>
-                      {isEven && (
+                  {/* Desktop Left Content (Even items) */}
+                  <div className="hidden md:block w-5/12 text-right pr-10 lg:pr-16">
+                    {isEven && (
+                      <FadeUp delay={idx * 150}>
                         <div className={`transition-opacity duration-500 ${item.status === 'current' ? 'opacity-100' : 'opacity-75'}`}>
                           <div className={`inline-flex items-center gap-2 mb-2 ${item.status === 'current' ? 'text-[var(--color-gold)]' : 'text-[var(--color-text)]'}`}>
                             {item.status === 'current' && (
@@ -75,7 +75,56 @@ export default function Roadmap() {
                             {item.body}
                           </p>
                         </div>
-                      )}
+                      </FadeUp>
+                    )}
+                  </div>
+
+                  {/* Desktop Center Spacer */}
+                  <div className="hidden md:block w-2/12"></div>
+
+                  {/* Desktop Right Content (Odd items) */}
+                  <div className="hidden md:block w-5/12 text-left pl-10 lg:pl-16">
+                    {!isEven && (
+                      <FadeUp delay={idx * 150}>
+                        <div className={`transition-opacity duration-500 ${item.status === 'current' ? 'opacity-100' : 'opacity-75'}`}>
+                          <div className={`inline-flex items-center gap-2 mb-2 ${item.status === 'current' ? 'text-[var(--color-gold)]' : 'text-[var(--color-text)]'}`}>
+                            <span className="font-mono text-sm font-bold">{item.date}</span>
+                            {item.status === 'current' && (
+                              <span className="px-2 py-0.5 rounded text-[0.65rem] font-bold uppercase tracking-wider bg-[var(--color-gold)] !text-[#0c0714]">
+                                Current
+                              </span>
+                            )}
+                          </div>
+                          <h4 className="font-display font-semibold text-xl text-[var(--color-text)] mb-3">
+                            {item.title}
+                          </h4>
+                          <p className={`text-sm leading-relaxed ${item.status === 'current' ? 'text-[var(--color-text)]' : 'text-[var(--color-muted)]'}`}>
+                            {item.body}
+                          </p>
+                        </div>
+                      </FadeUp>
+                    )}
+                  </div>
+
+                  {/* Mobile Content */}
+                  <div className="md:hidden ml-16 w-full py-2">
+                    <FadeUp delay={idx * 150}>
+                      <div className={`transition-opacity duration-500 ${item.status === 'current' ? 'opacity-100' : 'opacity-75'}`}>
+                        <div className={`inline-flex items-center gap-2 mb-2 ${item.status === 'current' ? 'text-[var(--color-gold)]' : 'text-[var(--color-text)]'}`}>
+                          <span className="font-mono text-sm font-bold">{item.date}</span>
+                          {item.status === 'current' && (
+                            <span className="px-2 py-0.5 rounded text-[0.65rem] font-bold uppercase tracking-wider bg-[var(--color-gold)] !text-[#0c0714]">
+                              Current
+                            </span>
+                          )}
+                        </div>
+                        <h4 className="font-display font-semibold text-xl text-[var(--color-text)] mb-3">
+                          {item.title}
+                        </h4>
+                        <p className={`text-sm leading-relaxed ${item.status === 'current' ? 'text-[var(--color-text)]' : 'text-[var(--color-muted)]'}`}>
+                          {item.body}
+                        </p>
+                      </div>
                     </FadeUp>
                   </div>
 
@@ -97,29 +146,6 @@ export default function Roadmap() {
                       )}
                     </div>
                   </div>
-
-                  {/* Mobile Content / Right Content */}
-                  <div className={`ml-16 md:ml-0 md:w-5/12 ${!isEven && 'md:text-left md:pl-8'} ${isEven && 'md:hidden'}`}>
-                    <FadeUp delay={idx * 150}>
-                      <div className={`transition-opacity duration-500 ${item.status === 'current' ? 'opacity-100' : 'opacity-75'}`}>
-                        <div className={`inline-flex items-center gap-2 mb-2 ${item.status === 'current' ? 'text-[var(--color-gold)]' : 'text-[var(--color-text)]'}`}>
-                          <span className="font-mono text-sm font-bold">{item.date}</span>
-                          {item.status === 'current' && (
-                            <span className="px-2 py-0.5 rounded text-[0.65rem] font-bold uppercase tracking-wider bg-[var(--color-gold)] !text-[#0c0714]">
-                              Current
-                            </span>
-                          )}
-                        </div>
-                        <h4 className="font-display font-semibold text-xl text-[var(--color-text)] mb-3">
-                          {item.title}
-                        </h4>
-                        <p className={`text-sm leading-relaxed ${item.status === 'current' ? 'text-[var(--color-text)]' : 'text-[var(--color-muted)]'}`}>
-                          {item.body}
-                        </p>
-                      </div>
-                    </FadeUp>
-                  </div>
-
                 </div>
               )
             })}

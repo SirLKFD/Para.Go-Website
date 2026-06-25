@@ -1,10 +1,37 @@
 import FadeUp from './FadeUp'
+import { useState, useEffect, useRef } from 'react'
+import { X } from 'lucide-react'
 
 export default function Origins() {
+  const [selectedImage, setSelectedImage] = useState<string | null>(null)
+  const [inView, setInView] = useState(false)
+  const containerRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => setInView(true), 300)
+      }
+    }, { threshold: 0.3 })
+    if (containerRef.current) observer.observe(containerRef.current)
+    return () => observer.disconnect()
+  }, [])
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setSelectedImage(null)
+      }
+    }
+    if (selectedImage) {
+      window.addEventListener('keydown', handleKeyDown)
+    }
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [selectedImage])
   const photos = [
     {
       id: 1,
-      label: 'Thesis Defense Completed',
+      label: 'Thesis Defended',
       img: '/thesisdefended.jpg'
     },
     {
@@ -65,32 +92,70 @@ export default function Origins() {
             </div>
           </FadeUp>
 
-          {/* Right Column: 2x2 Photo Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {photos.map((photo, idx) => (
-              <FadeUp key={photo.id} delay={idx * 150}>
-                <div 
-                  className="aspect-square bg-[var(--color-surface)] border border-[var(--color-border)] rounded-xl overflow-hidden relative group h-full"
-                >
-                  {photo.img && (
-                    <img src={photo.img} alt={photo.label} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
-                  )}
-                  {/* Fallback dark placeholder if no actual image */}
-                  <div className={`absolute inset-0 bg-gradient-to-br from-[#160d24]/80 to-[#0c0714]/90 flex flex-col justify-end p-4 ${photo.img ? 'opacity-0 group-hover:opacity-100 transition-opacity' : ''}`}>
-                    <div className="absolute inset-0 bg-[var(--color-gold)]/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                    
-                    <span className="text-[var(--color-muted)] text-xs font-mono relative z-10 leading-snug">
-                      {photo.label}
-                    </span>
+          {/* Right Column: Photo Fan Gallery */}
+          <div className="flex justify-center items-center h-full min-h-[400px] w-full overflow-visible perspective-1000" ref={containerRef}>
+            <div className="flex justify-center items-center group/container">
+              {photos.map((photo, i) => {
+                const rotations = ['-rotate-6', '-rotate-2', 'rotate-2', 'rotate-6']
+                
+                // Stack exactly on top of each other when not in view
+                const mlClass = inView 
+                  ? (i === 0 ? 'ml-0' : '-ml-12 sm:-ml-16 md:-ml-20')
+                  : (i === 0 ? 'ml-0' : '-ml-[128px] sm:-ml-[160px] md:-ml-[192px]')
+                  
+                const rotationClass = inView ? rotations[i] : 'rotate-0'
+
+                return (
+                  <div 
+                    key={photo.id} 
+                    className={`relative ${mlClass} group/card hover:z-50`}
+                    style={{ zIndex: i + 10, transition: 'margin 1s cubic-bezier(0.25, 1, 0.5, 1)' }}
+                    onClick={() => photo.img && setSelectedImage(photo.img)}
+                  >
+                    <div 
+                      className={`w-32 sm:w-40 md:w-48 aspect-[4/5] rounded-xl overflow-hidden shadow-[0_20px_40px_rgba(0,0,0,0.4)] transition-all duration-1000 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover/card:-translate-y-8 sm:group-hover/card:-translate-y-12 group-hover/card:scale-[1.15] group-hover/card:!rotate-0 cursor-pointer ${rotationClass}`}
+                    >
+                      {photo.img && (
+                        <img 
+                          src={photo.img} 
+                          alt={photo.label} 
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-110" 
+                        />
+                      )}
+                    </div>
                   </div>
-                </div>
-              </FadeUp>
-            ))}
+                )
+              })}
+            </div>
           </div>
 
         </div>
 
       </div>
+
+      {/* Lightbox Modal */}
+      {selectedImage && (
+        <div 
+          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex flex-col items-center justify-center p-4 lg:p-8 animate-in fade-in duration-200"
+          onClick={() => setSelectedImage(null)}
+        >
+          <button 
+            className="absolute top-4 right-4 sm:top-8 sm:right-8 text-white p-2 hover:bg-white/10 rounded-full transition-colors z-50"
+            onClick={() => setSelectedImage(null)}
+          >
+            <X size={32} />
+          </button>
+          <img 
+            src={selectedImage} 
+            alt="Expanded view" 
+            className="max-w-full max-h-[80vh] object-contain rounded-xl shadow-2xl animate-in zoom-in-95 duration-300 mb-6" 
+            onClick={(e) => e.stopPropagation()} 
+          />
+          <p className="text-white text-lg md:text-xl font-display font-medium max-w-2xl text-center px-4 animate-in slide-in-from-bottom-4 duration-500">
+            {photos.find(p => p.img === selectedImage)?.label}
+          </p>
+        </div>
+      )}
     </section>
   )
 }
