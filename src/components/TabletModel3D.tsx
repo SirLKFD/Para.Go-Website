@@ -42,7 +42,7 @@ export default function TabletModel3D({ textureUrl }: TabletModel3DProps) {
 
     // Camera
     const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 100)
-    camera.position.set(0, 0, 4.5)
+    camera.position.set(0, 0, 5.2)
 
     // Renderer
     const renderer = new THREE.WebGLRenderer({
