@@ -82,7 +82,7 @@ function StatCounter({ endValue, suffix = '', prefix = '', label, duration = 150
 
 export default function Stats() {
   return (
-    <section className="bg-[var(--bg-base)] transition-colors duration-1000 py-12 md:py-16">
+    <section className=" transition-colors duration-1000 py-12 md:py-16">
       <div className="max-w-[1200px] mx-auto px-4 lg:px-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           <StatCounter 

@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 // Components
 import Hero from '../components/Hero'
@@ -23,7 +23,7 @@ export const Route = createFileRoute('/')({
     meta: [
       { title: 'Para.Go - Cebu\'s Smart Jeepney Transit System' },
       { name: 'description', content: 'Cebu\'s Open Track Champion smart transit system. IoT hardware, mobile apps, and cashless fares for jeepneys.' },
-      { name: 'keywords', content: 'Para.Go, smart jeepney Cebu, modern public transport, Cebu transit tracker, cashless fare cards, CIT-University, smart transport system Philippines' },
+      { name: 'keywords', content: 'Para.Go, parago, para go, para-go, smart jeepney, smart jeepney Cebu, modern public transport, Cebu transit tracker, cashless fare cards, CIT-University, smart transport system Philippines, modern jeepney cebu, jeepney boarding card, parago transit' },
       { property: 'og:title', content: 'Para.Go - Cebu\'s Smart Jeepney Transit System' },
       { property: 'og:description', content: 'Cebu\'s Open Track Champion smart transit system. IoT hardware, mobile apps, and cashless fares for jeepneys.' },
       { property: 'og:image', content: 'https://parago.top/og-image.png' },
@@ -41,12 +41,26 @@ export const Route = createFileRoute('/')({
 })
 
 function LandingPage() {
+  // Dynamic glow effect and section color observer handling
+  const [activeColor, setActiveColor] = useState('rgba(40, 10, 80, 0.4)')
+
   // Scroll-Spy Intersection Observer Hook
   useEffect(() => {
     const sectionIds = [
-      'home', 'problem', 'features', 'how-it-works', 'why', 
-      'tracker', 'beneficiaries', 'awards', 'roadmap', 
-      'model', 'partners', 'origins', 'download', 'contact'
+      { id: 'home', color: 'rgba(40, 10, 80, 0.4)' }, 
+      { id: 'problem', color: 'rgba(35, 12, 85, 0.4)' }, 
+      { id: 'features', color: 'rgba(30, 15, 95, 0.4)' }, 
+      { id: 'how-it-works', color: 'rgba(25, 20, 105, 0.4)' }, 
+      { id: 'why', color: 'rgba(20, 25, 110, 0.4)' }, 
+      { id: 'tracker', color: 'rgba(15, 30, 120, 0.4)' }, 
+      { id: 'beneficiaries', color: 'rgba(10, 35, 130, 0.4)' }, 
+      { id: 'awards', color: 'rgba(5, 40, 140, 0.4)' }, 
+      { id: 'roadmap', color: 'rgba(10, 35, 130, 0.4)' }, 
+      { id: 'model', color: 'rgba(15, 30, 120, 0.4)' }, 
+      { id: 'partners', color: 'rgba(20, 25, 110, 0.4)' }, 
+      { id: 'origins', color: 'rgba(25, 20, 105, 0.4)' }, 
+      { id: 'download', color: 'rgba(30, 15, 95, 0.4)' }, 
+      { id: 'contact', color: 'rgba(35, 12, 85, 0.4)' }
     ]
     
     const observerOptions = {
@@ -59,6 +73,12 @@ function LandingPage() {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           const id = entry.target.id
+          
+          const matchedSection = sectionIds.find(s => s.id === id)
+          if(matchedSection) {
+             setActiveColor(matchedSection.color)
+          }
+
           // Notify header navigation on active highlight anchor change
           const event = new CustomEvent('active-section-changed', { detail: id })
           window.dispatchEvent(event)
@@ -68,13 +88,13 @@ function LandingPage() {
 
     const observer = new IntersectionObserver(observerCallback, observerOptions)
 
-    sectionIds.forEach((id) => {
+    sectionIds.forEach(({ id }) => {
       const el = document.getElementById(id)
       if (el) observer.observe(el)
     })
 
     return () => {
-      sectionIds.forEach((id) => {
+      sectionIds.forEach(({ id }) => {
         const el = document.getElementById(id)
         if (el) observer.unobserve(el)
       })
@@ -104,9 +124,16 @@ function LandingPage() {
   }, [])
 
   return (
-    <main className="bg-[#0c0714] text-white">
-      {/* 1. Hero Section */}
-      <Hero />
+    <main 
+      className="relative text-white min-h-screen bg-black overflow-hidden transition-colors duration-1000 ease-in-out"
+      style={{
+        background: `radial-gradient(ellipse at center, ${activeColor} 0%, rgba(0,0,0,1) 80%)`
+      }}
+    >
+      {/* Content wrapper needs relative/z-10 so it's above base bg but affected by overlay */}
+      <div className="relative z-10 w-full overflow-hidden">
+        {/* 1. Hero Section */}
+        <Hero />
 
       {/* 2. Stats Bar */}
       <div className="spaceship-reveal">
@@ -176,6 +203,7 @@ function LandingPage() {
       {/* 15. Contact / CTA */}
       <div className="spaceship-reveal">
         <Contact />
+      </div>
       </div>
     </main>
   )

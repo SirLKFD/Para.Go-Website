@@ -29,7 +29,7 @@ export default function Roadmap() {
   ]
 
   return (
-    <section id="roadmap" className="py-24 bg-[var(--bg-base)] transition-colors duration-1000">
+    <section id="roadmap" className="py-24  transition-colors duration-1000">
       <div className="max-w-[1000px] mx-auto px-4 lg:px-6">
         
         <FadeUp>

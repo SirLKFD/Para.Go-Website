@@ -15,7 +15,7 @@ export default function BusinessModel() {
   ]
 
   return (
-    <section id="model" className="py-24 bg-[var(--bg-base)] transition-colors duration-1000 border-y border-[var(--color-border)]">
+    <section id="model" className="py-24 transition-colors duration-1000 ">
       <div className="max-w-[1200px] mx-auto px-4 lg:px-6">
         
         <div className="mb-16">

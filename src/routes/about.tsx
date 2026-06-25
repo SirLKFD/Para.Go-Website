@@ -6,7 +6,7 @@ export const Route = createFileRoute('/about')({
     meta: [
       { title: 'About Para.Go - Tech-Driven Public Transit Modernization in Cebu' },
       { name: 'description', content: 'Learn about Para.Go\'s roots at Cebu Institute of Technology - University. Discover our story, transit modernization research, and active public service initiatives for Cebuanos.' },
-      { name: 'keywords', content: 'About Para.Go, CIT-University engineering, Cebu jeepney research, transit modernization team, smart transportation story' },
+      { name: 'keywords', content: 'About Para.Go, parago, para go, parago about, CIT-University engineering, Cebu jeepney research, transit modernization team, smart transportation story, parago history' },
       { property: 'og:title', content: 'About Para.Go - CIT-U Roots & Transit Mission' },
       { property: 'og:description', content: 'Designed and developed by CIT-University engineering graduates. Bringing live tracking, comfort automation, and seamless cashless boarding to Cebuano public vehicles.' },
       { property: 'og:image', content: 'https://parago.top/og-image.png' },

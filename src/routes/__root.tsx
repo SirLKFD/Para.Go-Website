@@ -26,7 +26,7 @@ export const Route = createRootRoute({
       },
       {
         name: 'keywords',
-        content: 'Para.Go, smart jeepney, Cebu transit, public transport Cebu, CIT-University, modern transit',
+        content: 'Para.Go, parago, para go, para-go, smart jeepney, modern jeepney, Cebu transit, public transport Cebu, CIT-University, CIT-U jeepney, modern transit, Cebu jeepney tracking, jeepney app',
       },
       {
         property: 'og:type',
@@ -157,6 +157,31 @@ function RootDocument({ children }: { children: React.ReactNode }) {
     <html lang="en" className="dark">
       <head>
         <HeadContent />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebApplication",
+              "name": "Para.Go",
+              "alternateName": [
+                "Parago",
+                "Para Go",
+                "Para-Go",
+                "Cebu Smart Jeepney",
+                "Smart Jeepney"
+              ],
+              "url": "https://parago.top",
+              "description": "Cebu's smart modern jeepney transit service. Live seat monitoring, automated comfort, and NFC tap boarding cards by CIT-U graduates.",
+              "applicationCategory": "TravelApplication",
+              "operatingSystem": "Android, iOS, Web",
+              "creator": {
+                "@type": "Organization",
+                "name": "Para.Go Team"
+              }
+            })
+          }}
+        />
       </head>
       <body className="font-sans antialiased [overflow-wrap:anywhere] selection:bg-[#fcd116] selection:text-[#0c0714]">
         <Header />

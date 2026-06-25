@@ -21,7 +21,7 @@ export default function Beneficiaries() {
   ]
 
   return (
-    <section id="beneficiaries" className="py-24 bg-[var(--bg-base)] transition-colors duration-1000">
+    <section id="beneficiaries" className="py-24  transition-colors duration-1000">
       <div className="max-w-[1200px] mx-auto px-4 lg:px-6">
         
         <FadeUp>
