@@ -149,6 +149,14 @@ export default function JeepneyModel3D() {
       height = canvas.clientHeight
       if (width === 0 || height === 0) return
       camera.aspect = width / height
+      
+      // Adjust camera distance based on width to prevent layout overflow on mobile
+      if (window.innerWidth < 640) {
+        camera.position.z = 9.5 // Push back on mobile
+      } else {
+        camera.position.z = 8.0
+      }
+      
       camera.updateProjectionMatrix()
       renderer.setSize(width, height, false)
     })
@@ -197,7 +205,7 @@ export default function JeepneyModel3D() {
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-[320px] sm:h-[400px] md:h-[480px] cursor-grab active:cursor-grabbing select-none"
+      className="relative w-full h-[240px] sm:h-[360px] md:h-[480px] cursor-grab active:cursor-grabbing select-none"
       style={{ overflow: 'visible' }}
     >
       <canvas ref={canvasRef} className="absolute block inset-0 w-full h-full" />

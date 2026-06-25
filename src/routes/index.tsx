@@ -17,6 +17,7 @@ import Partnerships from '../components/Partnerships'
 import Origins from '../components/Origins'
 import Download from '../components/Download'
 import Contact from '../components/Contact'
+import KickstarterVideo from '../components/KickstarterVideo'
 
 export const Route = createFileRoute('/')({
   head: () => ({
@@ -48,6 +49,7 @@ function LandingPage() {
   useEffect(() => {
     const sectionIds = [
       { id: 'home', color: 'rgba(40, 10, 80, 0.4)' }, 
+      { id: 'kickstarter', color: 'rgba(38, 11, 82, 0.4)' },
       { id: 'problem', color: 'rgba(35, 12, 85, 0.4)' }, 
       { id: 'features', color: 'rgba(30, 15, 95, 0.4)' }, 
       { id: 'how-it-works', color: 'rgba(25, 20, 105, 0.4)' }, 
@@ -135,7 +137,12 @@ function LandingPage() {
         {/* 1. Hero Section */}
         <Hero />
 
-      {/* 2. Stats Bar */}
+      {/* 2. Kickstarter Video */}
+      <div className="spaceship-reveal">
+        <KickstarterVideo />
+      </div>
+
+      {/* 3. Stats Bar */}
       <div className="spaceship-reveal">
         <Stats />
       </div>

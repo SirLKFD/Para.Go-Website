@@ -42,7 +42,7 @@ export default function TabletModel3D({ textureUrl }: TabletModel3DProps) {
 
     // Camera
     const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 100)
-    camera.position.set(0, 0, 5.2)
+    camera.position.set(0, 0, 5)
 
     // Renderer
     const renderer = new THREE.WebGLRenderer({
@@ -210,6 +210,14 @@ export default function TabletModel3D({ textureUrl }: TabletModel3DProps) {
       height = canvas.clientHeight
       if (width === 0 || height === 0) return
       camera.aspect = width / height
+      
+      // Adjust camera distance based on width to prevent layout overflow on mobile
+      if (window.innerWidth < 640) {
+        camera.position.z = 6.2 // Push back on mobile
+      } else {
+        camera.position.z = 5.0
+      }
+      
       camera.updateProjectionMatrix()
       renderer.setSize(width, height, false)
     })

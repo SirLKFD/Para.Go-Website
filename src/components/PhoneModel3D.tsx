@@ -211,6 +211,14 @@ export default function PhoneModel3D({ textureUrl }: PhoneModel3DProps) {
       height = canvas.clientHeight
       if (width === 0 || height === 0) return
       camera.aspect = width / height
+      
+      // Adjust camera distance based on width to prevent layout overflow on mobile
+      if (window.innerWidth < 640) {
+        camera.position.z = 9.2 // Push back on mobile
+      } else {
+        camera.position.z = 7.5
+      }
+      
       camera.updateProjectionMatrix()
       renderer.setSize(width, height, false)
     })
