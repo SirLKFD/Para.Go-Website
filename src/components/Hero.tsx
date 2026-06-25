@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
-import { Trophy, Smartphone, MapPin } from 'lucide-react'
 import FadeUp from './FadeUp'
+import PhoneModel3D from './PhoneModel3D'
 
 export default function Hero() {
   useEffect(() => {
@@ -174,12 +174,11 @@ export default function Hero() {
           backgroundPosition: '0 0, 20px 20px'
         }}></div>
       </div>
-
-      <div className="max-w-[1200px] mx-auto px-4 lg:px-6 relative z-10 w-full">
+      <div className="max-w-[1200px] mx-auto px-4 lg:px-6 relative z-10 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 xl:gap-24 items-center">
           
           {/* Left Column: Text */}
-          <div className="lg:col-span-5">
+          <div className="lg:col-span-7">
             <FadeUp delay={100}>
               <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
               
@@ -219,7 +218,7 @@ export default function Hero() {
           </div>
 
           {/* Right Column: Visual Mockup */}
-          <div className="lg:col-span-7 relative w-full flex flex-col sm:flex-row items-center justify-center lg:justify-end mt-16 lg:mt-0 perspective-1000">
+          <div className="lg:col-span-5 relative w-full flex items-center justify-center lg:justify-end mt-16 lg:mt-0 perspective-1000">
             
             {/* Phone Frame */}
             <FadeUp delay={300} className="relative z-20 shrink-0">
@@ -228,51 +227,8 @@ export default function Hero() {
                 <div className="absolute -inset-10 bg-[var(--color-gold)]/10 blur-[50px] rounded-full -z-10 animate-pulse" style={{ animationDuration: '8s' }}></div>
                 <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 w-4/5 h-4 bg-black/40 blur-md rounded-full -z-10"></div>
                 
-                <div className="hero-phone-container relative w-[190px] sm:w-[240px] rounded-[2.5rem] border-[6px] border-[var(--color-surface)] bg-[#0f081b] overflow-hidden aspect-[9/19] pointer-events-auto">
-                  <img 
-                    src="/passenger.jpg" 
-                    alt="Commuter App Map Screenshot" 
-                    className="w-full h-full object-cover opacity-90"
-                    loading="lazy"
-                  />
-                  
-                  {/* Glass Screen Glare */}
-                  <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/8 to-transparent pointer-events-none z-10" />
-                  
-                  {/* Overlay UI elements */}
-                  <div className="absolute bottom-8 left-3 right-3 bg-[var(--color-surface)]/90 backdrop-blur border border-[var(--color-border)] rounded-xl p-3 shadow-xl">
-                    <div className="flex items-center justify-between mb-1.5">
-                      <span className="text-[var(--color-text)] font-mono text-xs font-bold">10M</span>
-                      <div className="flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-[var(--color-green)]/20 border border-[var(--color-green)]/30 text-[var(--color-green)] text-[0.55rem] font-bold uppercase tracking-wider">
-                        <span className="w-1 h-1 rounded-full bg-[var(--color-green)] animate-pulse"></span>
-                        Live
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-1.5 text-[var(--color-muted)] text-[0.65rem]">
-                      <MapPin size={10} className="text-[var(--color-gold)] shrink-0" />
-                      <span className="truncate">Bulacao → SM City</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </FadeUp>
-
-            {/* Tablet Frame */}
-            <FadeUp delay={500} className="relative z-10 shrink-0 ml-0 sm:ml-4 lg:ml-8 mt-12 sm:mt-20">
-              <div className="relative">
-                {/* Backlight Glow & Floor Shadow */}
-                <div className="absolute -inset-14 bg-indigo-500/10 blur-[60px] rounded-full -z-10 animate-pulse" style={{ animationDuration: '10s' }}></div>
-                <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 w-[90%] h-5 bg-black/45 blur-lg rounded-full -z-10"></div>
-                
-                <div className="hero-tablet-container relative w-[280px] sm:w-[400px] rounded-2xl border-[6px] border-[var(--color-surface)] bg-[#0f081b] overflow-hidden aspect-[16/10] opacity-95 hover:opacity-100 pointer-events-auto">
-                  <img 
-                    src="/driver.jpg" 
-                    alt="Driver Dashboard" 
-                    className="w-full h-full object-cover object-top"
-                    loading="lazy"
-                  />
-                  {/* Glass Screen Glare */}
-                  <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/8 to-transparent pointer-events-none z-10" />
+                <div className="relative w-[200px] sm:w-[260px] md:w-[280px] lg:w-[290px] xl:w-[320px] aspect-[9/19] pointer-events-auto">
+                  <PhoneModel3D textureUrl="/passenger.jpg" />
                 </div>
               </div>
             </FadeUp>
