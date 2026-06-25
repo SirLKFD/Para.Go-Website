@@ -79,7 +79,7 @@ export default function Features() {
         </FadeUp>
 
         {/* Hardware Layer: Smart Jeepney Module Infographic */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center mb-16 relative">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 sm:gap-12 lg:gap-12 items-center mb-24 sm:mb-28 lg:mb-32 relative">
           
           {/* Left: Info */}
           <div className="lg:col-span-7 flex flex-col justify-center">
@@ -119,7 +119,7 @@ export default function Features() {
                 </li>
               </ul>
 
-              <div className="flex flex-wrap gap-4">
+              <div className="flex flex-wrap gap-4 relative z-20">
                 <button
                   onClick={() => openModal('image', hardwareFeature.image)}
                   className="demo-button text-xs uppercase tracking-wider"
@@ -133,7 +133,7 @@ export default function Features() {
           {/* Right: 3D CAD STL Model Viewer */}
           <div className="lg:col-span-5 relative w-full">
             <FadeUp delay={150}>
-              <div className="relative w-full h-full">
+              <div className="relative w-full">
                 <ModuleModel3D />
               </div>
             </FadeUp>
@@ -149,12 +149,12 @@ export default function Features() {
         </div>
 
         {/* Commuter Mobile App (3D Left, Text Right) */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center mb-24 relative">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 sm:gap-12 lg:gap-12 items-center mb-24 sm:mb-28 lg:mb-32 relative">
           
           {/* Left: 3D Phone Model */}
           <div className="lg:col-span-5 relative w-full flex justify-center order-2 lg:order-1">
             <FadeUp delay={150}>
-              <div className="relative w-[220px] sm:w-[280px] md:w-[320px] aspect-[9/19] scale-105">
+              <div className="relative w-[180px] sm:w-[240px] md:w-[320px] aspect-[9/19]">
                 <PhoneModel3D textureUrl="/passenger.jpg" />
               </div>
             </FadeUp>
@@ -198,7 +198,7 @@ export default function Features() {
                 </li>
               </ul>
 
-              <div className="flex flex-wrap gap-4">
+              <div className="flex flex-wrap gap-4 relative z-20">
                 <button
                   onClick={() => openModal('image', '/passenger.jpg')}
                   className="demo-button text-xs uppercase tracking-wider"
@@ -212,7 +212,7 @@ export default function Features() {
         </div>
 
         {/* Driver Dashboard (Text Left, 3D Right) */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center mb-16 relative">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 sm:gap-12 lg:gap-12 items-center mb-24 sm:mb-28 lg:mb-32 relative">
           
           {/* Left: Info */}
           <div className="lg:col-span-7 flex flex-col justify-center">
@@ -252,7 +252,7 @@ export default function Features() {
                 </li>
               </ul>
 
-              <div className="flex flex-wrap gap-4">
+              <div className="flex flex-wrap gap-4 relative z-20">
                 <button
                   onClick={() => openModal('image', '/driver.jpg')}
                   className="demo-button text-xs uppercase tracking-wider"
@@ -266,7 +266,7 @@ export default function Features() {
           {/* Right: 3D Tablet Model */}
           <div className="lg:col-span-5 relative w-full flex justify-center">
             <FadeUp delay={150}>
-              <div className="relative w-[300px] sm:w-[400px] md:w-[450px] aspect-[16/10]">
+              <div className="relative w-[280px] sm:w-[420px] md:w-[500px] aspect-[16/10]">
                 <TabletModel3D textureUrl="/driver.jpg" />
               </div>
             </FadeUp>

@@ -148,6 +148,14 @@ export default function ModuleModel3D() {
       height = canvas.clientHeight
       if (width === 0 || height === 0) return
       camera.aspect = width / height
+      
+      // Adjust camera distance based on width to prevent layout overflow on mobile
+      if (window.innerWidth < 640) {
+        camera.position.z = 10.0 // Push back on mobile
+      } else {
+        camera.position.z = 8.5
+      }
+      
       camera.updateProjectionMatrix()
       renderer.setSize(width, height, false)
     })
@@ -196,7 +204,7 @@ export default function ModuleModel3D() {
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-[550px] cursor-grab active:cursor-grabbing select-none overflow-visible"
+      className="relative w-full h-[240px] sm:h-[360px] md:h-[500px] cursor-grab active:cursor-grabbing select-none overflow-visible"
     >
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
       {isLoading && (
