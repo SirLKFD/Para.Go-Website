@@ -22,29 +22,47 @@ export default function Download() {
             <div className="flex flex-col sm:flex-row gap-8 lg:gap-12 shrink-0">
               
               {/* App QR */}
-              <div className="flex flex-col items-center">
-                <div className="bg-white p-2 rounded-xl shadow-xl mb-4">
-                  <div className="w-40 h-40 md:w-48 md:h-48 bg-white flex items-center justify-center rounded-lg overflow-hidden">
+              <a 
+                href="https://play.google.com/apps/internaltest/4700011648938665542" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex flex-col items-center group cursor-pointer transition-transform duration-300 hover:scale-105 hover:-translate-y-2"
+              >
+                <div className="bg-white p-2 rounded-xl shadow-xl mb-4 group-hover:shadow-[0_20px_40px_rgba(0,0,0,0.4)] transition-shadow duration-300">
+                  <div className="w-40 h-40 md:w-48 md:h-48 bg-white flex items-center justify-center rounded-lg overflow-hidden relative">
                     <img src="/playstoreqr.jpg" alt="Play Store QR" className="w-full h-full object-cover" />
+                    {/* Hover Overlay */}
+                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                      <span className="text-white font-bold bg-black/50 px-4 py-2 rounded-full border border-[var(--color-gold)] text-sm uppercase tracking-wider">Click to open</span>
+                    </div>
                   </div>
                 </div>
                 <div className="flex flex-col items-center gap-3">
-                  <p className="text-white text-sm md:text-base font-semibold italic text-center">Scan to install the App</p>
+                  <p className="text-white text-sm md:text-base font-semibold italic text-center group-hover:text-[var(--color-gold)] transition-colors">Scan or click to install</p>
                   <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Get it on Google Play" className="h-10 md:h-12 object-contain" />
                 </div>
-              </div>
+              </a>
 
               {/* Kickstarter QR */}
-              <div className="flex flex-col items-center">
-                <div className="bg-white p-2 rounded-xl shadow-xl mb-4">
-                  <div className="w-40 h-40 md:w-48 md:h-48 bg-white flex items-center justify-center rounded-lg overflow-hidden">
+              <a 
+                href="https://drive.google.com/file/d/104HmJF2I4oPOoTzmK35S5llvgFVYLT78/view" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex flex-col items-center group cursor-pointer transition-transform duration-300 hover:scale-105 hover:-translate-y-2"
+              >
+                <div className="bg-white p-2 rounded-xl shadow-xl mb-4 group-hover:shadow-[0_20px_40px_rgba(0,0,0,0.4)] transition-shadow duration-300">
+                  <div className="w-40 h-40 md:w-48 md:h-48 bg-white flex items-center justify-center rounded-lg overflow-hidden relative">
                     <img src="/kickstarterqr.jpg" alt="Kickstarter QR" className="w-full h-full object-cover" />
+                    {/* Hover Overlay */}
+                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                      <span className="text-white font-bold bg-black/50 px-4 py-2 rounded-full border border-[var(--color-gold)] text-sm uppercase tracking-wider">Click to watch</span>
+                    </div>
                   </div>
                 </div>
                 <div className="flex flex-col items-center gap-3 justify-center h-full">
-                  <p className="text-white text-sm md:text-base font-semibold italic text-center max-w-[180px]">*Scan to view our Kickstarter video</p>
+                  <p className="text-white text-sm md:text-base font-semibold italic text-center max-w-[180px] group-hover:text-[var(--color-gold)] transition-colors">*Scan or click to view our Kickstarter video</p>
                 </div>
-              </div>
+              </a>
 
             </div>
           </div>

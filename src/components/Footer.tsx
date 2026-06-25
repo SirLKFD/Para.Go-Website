@@ -98,11 +98,10 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-[var(--color-border)] pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
+        <div className="border-t border-[var(--color-border)] pt-8 flex items-center justify-center text-center">
           <p className="text-[var(--color-muted)] text-[0.75rem]">
             © 2026 Para.Go — Smart Jeepney Monitoring and Commuter Information System
           </p>
-          
         </div>
 
       </div>
