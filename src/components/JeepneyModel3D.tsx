@@ -54,7 +54,7 @@ export default function JeepneyModel3D() {
 
     // Load STL Model
     const loader = new STLLoader()
-    loader.load('/Jeepney_Model.stl', (geometry) => {
+    loader.load('/Jeepney_Model.stl?v=2', (geometry) => {
       geometry.center()
       geometry.computeVertexNormals()
 
