@@ -54,7 +54,7 @@ export default function ModuleModel3D() {
 
     // Load STL Model
     const loader = new STLLoader()
-    loader.load('/Unit_Prototype.stl', (geometry) => {
+    loader.load('/Unit_Prototype.stl?v=2', (geometry) => {
       geometry.center()
       geometry.computeVertexNormals()
 
