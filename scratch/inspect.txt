@@ -1,0 +1,4 @@
+Backup Unit_Prototype: 53 54 4c 42 20 41 54 46 20 31 35 2e 38 2e 30 2e 30 20 43 4f 4c 4f 52 3d d2 d1 c7 ff 20 20
+Public Unit_Prototype: 09 0e 16 18 7a 1b 0e 1c 7a 6b 6f 74 62 74 6a 74 6a 7a 19 15 16 15 08 67 88 8b 9d a5 7a 7a
+Backup Jeepney_Model:  53 54 4c 42 20 41 54 46 20 31 35 2e 38 2e 30 2e 30 20 43 4f 4c 4f 52 3d a0 a0 a0 ff 20 20
+Public Jeepney_Model:  09 0e 16 18 7a 1b 0e 1c 7a 6b 6f 74 62 74 6a 74 6a 7a 19 15 16 15 08 67 fa fa fa a5 7a 7a

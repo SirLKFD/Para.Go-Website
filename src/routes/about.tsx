@@ -20,6 +20,9 @@ export const Route = createFileRoute('/about')({
       { name: 'twitter:description', content: 'Designed and developed by CIT-University engineering graduates.' },
       { name: 'twitter:image', content: 'https://parago.top/og-image.png' },
     ],
+    links: [
+      { rel: 'canonical', href: 'https://parago.top/about' },
+    ],
   }),
   component: AboutPage,
 })

@@ -13,7 +13,6 @@ export default function Header() {
     { name: 'Features', id: 'features' },
     { name: 'How It Works', id: 'how-it-works' },
     { name: 'Why Para.Go', id: 'why' },
-    { name: 'Tracker', id: 'tracker' },
     { name: 'Awards', id: 'awards' },
     { name: 'Roadmap', id: 'roadmap' },
     { name: 'Partners', id: 'partners' },
