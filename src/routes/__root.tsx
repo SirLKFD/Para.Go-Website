@@ -19,7 +19,7 @@ export const Route = createRootRoute({
         content: 'width=device-width, initial-scale=1',
       },
       {
-        title: 'Para.Go - Cebu\'s Smart Jeepney',
+        title: 'Para.Go: Cebu\'s Smart Jeepney',
       },
       {
         name: 'description',
