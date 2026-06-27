@@ -4,6 +4,7 @@ import { TanStackDevtools } from '@tanstack/react-devtools'
 import { useEffect } from 'react'
 import Footer from '../components/Footer'
 import Header from '../components/Header'
+import { MapPinOff, ArrowLeft } from 'lucide-react'
 
 import appCss from '../styles.css?url'
 
@@ -111,6 +112,7 @@ export const Route = createRootRoute({
       },
     ],
   }),
+  notFoundComponent: NotFoundComponent,
   shellComponent: RootDocument,
 })
 
@@ -142,7 +144,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       const section = customEvent.detail
       
       let bg = '#0c0714' // Base Deep Purple-Black
-      if (section === 'tracker' || section === 'download') {
+      if (section === 'download') {
         bg = '#060e22' // Dark Celestial Navy
       } else if (section === 'why' || section === 'beneficiaries' || section === 'awards' || section === 'partners' || section === 'contact') {
         bg = '#090510' // Transition shade
@@ -206,5 +208,40 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <Scripts />
       </body>
     </html>
+  )
+}
+
+function NotFoundComponent() {
+  return (
+    <div className="min-h-screen bg-[#0c0714] text-white flex flex-col items-center justify-center p-6 text-center select-none relative overflow-hidden">
+      {/* Background ambient light */}
+      <div className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-[var(--color-surface)] rounded-full blur-[120px] opacity-40 z-0 pointer-events-none"></div>
+
+      <div className="relative z-10 max-w-md flex flex-col items-center">
+        <div className="w-20 h-20 bg-[var(--color-gold)]/10 rounded-full flex items-center justify-center text-[var(--color-gold)] mb-8 shadow-inner animate-pulse">
+          <MapPinOff size={40} />
+        </div>
+
+        <h1 className="font-display font-bold text-7xl md:text-8xl text-[var(--color-text)] mb-4 tracking-tight">
+          404
+        </h1>
+        
+        <h2 className="font-display font-semibold text-xl md:text-2xl text-[var(--color-gold)] uppercase tracking-wider mb-6">
+          Route Not Found
+        </h2>
+        
+        <p className="text-[var(--color-muted)] text-[1rem] leading-relaxed mb-10">
+          The public transit link you followed does not exist. The jeepney might have changed its route or destination.
+        </p>
+
+        <a
+          href="/"
+          className="inline-flex items-center gap-2 bg-[var(--color-gold)] !text-[#0c0714] px-6 py-3.5 rounded-sm font-bold tracking-wider uppercase transition-colors hover:bg-white cursor-pointer"
+        >
+          <ArrowLeft size={16} />
+          Return to Hub
+        </a>
+      </div>
+    </div>
   )
 }

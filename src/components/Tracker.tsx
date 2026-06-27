@@ -74,15 +74,6 @@ export default function Tracker() {
         
         {/* Header */}
         <div className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <div>
-            <h2 className="font-display font-semibold text-3xl md:text-4xl text-[var(--color-text)] mb-3">
-              Cebu Transit Tracker
-            </h2>
-            <div className="flex flex-wrap items-center gap-3 text-[var(--color-muted)] text-sm font-mono">
-              <span>Route 10M · Bulacao – SM City Cebu · Pilot Demo</span>
-            </div>
-          </div>
-          
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[var(--color-green)]/10 border border-[var(--color-green)]/20 text-[var(--color-green)] text-xs font-bold uppercase tracking-widest shrink-0 self-start md:self-auto">
             <div className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--color-green)] opacity-75"></span>

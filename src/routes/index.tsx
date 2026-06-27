@@ -8,7 +8,6 @@ import TheProblem from '../components/TheProblem'
 import Features from '../components/Features'
 import HowItWorks from '../components/HowItWorks'
 import CompetitorComparison from '../components/CompetitorComparison'
-import Tracker from '../components/Tracker'
 import Beneficiaries from '../components/Beneficiaries'
 import Awards from '../components/Awards'
 import Roadmap from '../components/Roadmap'
@@ -37,6 +36,9 @@ export const Route = createFileRoute('/')({
       { name: 'twitter:description', content: 'Cebu\'s Open Track Champion smart transit system. IoT hardware, mobile apps, and cashless fares for jeepneys.' },
       { name: 'twitter:image', content: 'https://parago.top/og-image.png' },
     ],
+    links: [
+      { rel: 'canonical', href: 'https://parago.top/' },
+    ],
   }),
   component: LandingPage,
 })
@@ -54,7 +56,6 @@ function LandingPage() {
       { id: 'features', color: 'rgba(30, 15, 95, 0.4)' }, 
       { id: 'how-it-works', color: 'rgba(25, 20, 105, 0.4)' }, 
       { id: 'why', color: 'rgba(20, 25, 110, 0.4)' }, 
-      { id: 'tracker', color: 'rgba(15, 30, 120, 0.4)' }, 
       { id: 'beneficiaries', color: 'rgba(10, 35, 130, 0.4)' }, 
       { id: 'awards', color: 'rgba(5, 40, 140, 0.4)' }, 
       { id: 'roadmap', color: 'rgba(10, 35, 130, 0.4)' }, 
@@ -165,11 +166,6 @@ function LandingPage() {
       {/* 6. Competitor Comparison */}
       <div className="spaceship-reveal">
         <CompetitorComparison />
-      </div>
-
-      {/* 7. Live Tracker */}
-      <div className="spaceship-reveal">
-        <Tracker />
       </div>
 
       {/* 8. Beneficiaries */}

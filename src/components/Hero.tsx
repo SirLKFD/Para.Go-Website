@@ -79,6 +79,9 @@ export default function Hero() {
         {/* Map Vignette Gradients (Dark Faders) */}
         <div className="hero-map-vignette"></div>
 
+        {/* Smooth bottom fade transition */}
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black via-black/70 to-transparent pointer-events-none z-10" />
+
         {/* Radial orange glow top right */}
         <div className="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full bg-[var(--color-orange)]/20 blur-[120px] pointer-events-none z-10"></div>
 
@@ -109,16 +112,10 @@ export default function Hero() {
               {/* CTAs */}
               <div className="flex flex-col sm:flex-row items-center gap-4 mb-12">
                 <a 
-                  href="#tracker"
+                  href="#how-it-works"
                   className="w-full sm:w-auto inline-flex justify-center items-center gap-2 bg-[var(--color-gold)] !text-[#0c0714] px-6 py-3 rounded-sm font-bold text-xs sm:text-sm tracking-wider uppercase transition-colors hover:bg-white"
                 >
-                  Track Live Jeepneys →
-                </a>
-                <a 
-                  href="#how-it-works"
-                  className="w-full sm:w-auto inline-flex justify-center items-center gap-2 border-2 border-[var(--color-muted)] text-[var(--color-muted)] px-6 py-3 rounded-sm font-bold text-xs sm:text-sm tracking-wider uppercase transition-colors hover:bg-[var(--color-muted)] hover:!text-[#0c0714]"
-                >
-                  Learn How It Works
+                  Learn How It Works →
                 </a>
               </div>
 
