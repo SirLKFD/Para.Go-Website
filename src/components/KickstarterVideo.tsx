@@ -18,6 +18,43 @@ export default function KickstarterVideo() {
   const [duration, setDuration] = useState(0)
   const [isDraggingScrubber, setIsDraggingScrubber] = useState(false)
   const [isFullscreen, setIsFullscreen] = useState(false)
+  const [volume, setVolume] = useState(0.8)
+  const [isMuted, setIsMuted] = useState(true)
+
+  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newVolume = parseFloat(e.target.value)
+    setVolume(newVolume)
+    
+    const video = videoRef.current
+    if (video) {
+      video.volume = newVolume
+      if (newVolume > 0) {
+        video.muted = false
+        setIsMuted(false)
+      } else {
+        video.muted = true
+        setIsMuted(true)
+      }
+    }
+    setHasInteracted(true)
+  }
+
+  const toggleMute = () => {
+    const video = videoRef.current
+    if (!video) return
+
+    setHasInteracted(true)
+    const nextMuted = !isMuted
+    video.muted = nextMuted
+    setIsMuted(nextMuted)
+    
+    if (!nextMuted && volume === 0) {
+      video.volume = 0.8
+      setVolume(0.8)
+    } else {
+      video.volume = volume
+    }
+  }
 
   // Listen to fullscreen changes to sync UI state
   useEffect(() => {
@@ -40,6 +77,7 @@ export default function KickstarterVideo() {
         if (entry.isIntersecting) {
           if (!hasInteracted) {
             video.muted = true
+            setIsMuted(true)
             video.play().catch(() => {})
             setIsPlaying(true)
           }
@@ -97,7 +135,10 @@ export default function KickstarterVideo() {
     setHasInteracted(true)
 
     if (video.paused) {
-      video.muted = false
+      if (isMuted) {
+        video.muted = false
+        setIsMuted(false)
+      }
       video.play().catch(() => {})
       setIsPlaying(true)
     } else {
@@ -270,8 +311,43 @@ export default function KickstarterVideo() {
                       )}
                     </button>
 
+                    {/* Mute / Unmute Button */}
+                    <button
+                      className="w-8 h-8 flex items-center justify-center text-white/80 hover:text-white transition-colors"
+                      onClick={(e) => { e.stopPropagation(); toggleMute() }}
+                      title={isMuted ? "Unmute" : "Mute"}
+                    >
+                      {isMuted || volume === 0 ? (
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 9.75L19.5 12m0 0l2.25 2.25M19.5 12l2.25-2.25M19.5 12l-2.25 2.25M6 9.75H4.5A1.5 1.5 0 003 11.25v1.5a1.5 1.5 0 001.5 1.5H6m0-4.5L10.5 6v12L6 14.25m0-4.5h0" />
+                        </svg>
+                      ) : volume < 0.5 ? (
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M15.536 8.464a5 5 0 010 7.072M6 9.75H4.5A1.5 1.5 0 003 11.25v1.5a1.5 1.5 0 001.5 1.5H6m0-4.5L10.5 6v12L6 14.25m0-4.5h0" />
+                        </svg>
+                      ) : (
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6 9.75H4.5A1.5 1.5 0 003 11.25v1.5a1.5 1.5 0 001.5 1.5H6m0-4.5L10.5 6v12L6 14.25m0-4.5h0" />
+                        </svg>
+                      )}
+                    </button>
+
+                    {/* Volume Slider */}
+                    <div className="flex items-center mr-2">
+                      <input
+                        type="range"
+                        min="0"
+                        max="1"
+                        step="0.05"
+                        value={isMuted ? 0 : volume}
+                        onChange={handleVolumeChange}
+                        onClick={(e) => e.stopPropagation()}
+                        className="w-16 md:w-20 h-1 bg-white/20 rounded-full appearance-none cursor-pointer accent-[var(--color-gold)] focus:outline-none hover:h-1.5 transition-all"
+                      />
+                    </div>
+
                     {/* Timestamp */}
-                    <span className="text-white/70 text-xs font-mono tracking-wider">
+                    <span className="text-white/70 text-xs font-mono tracking-wider animate-fade-in">
                       {formatTime(currentTime)} / {formatTime(duration)}
                     </span>
                   </div>

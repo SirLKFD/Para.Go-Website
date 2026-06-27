@@ -102,12 +102,36 @@ export default function Hero() {
                 finally smart.
               </h1>
               
-              <p className="text-[var(--color-muted)] text-[1.0625rem] leading-relaxed max-w-xl mb-10">
+              <p className="text-[var(--color-muted)] text-[1.0625rem] leading-relaxed max-w-xl mb-8">
                 Para.Go is a complete smart transit system — IoT hardware, mobile apps, 
                 and cashless fares working together on the streets of Cebu City. 
                 Metro Cebu generates 3.5 million trips daily. We're building the 
                 infrastructure to make every one of them better.
               </p>
+
+              {/* SDG Icons Section */}
+              <div className="flex flex-col items-center lg:items-start mb-10 w-full">
+                <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--color-gold)] mb-4">
+                  Supporting UN Sustainable Development Goals
+                </span>
+                <div className="flex flex-wrap gap-4">
+                  {[
+                    { src: '/sdg3-en.png', alt: 'SDG 3: Good Health & Well-being' },
+                    { src: '/Sustainable_Development_Goal_9.png', alt: 'SDG 9: Industry, Innovation & Infrastructure' },
+                    { src: '/sdg11.png', alt: 'SDG 11: Sustainable Cities & Communities' },
+                    { src: '/Sustainable_Development_Goal_13Climate.svg.png', alt: 'SDG 13: Climate Action' }
+                  ].map((sdg, idx) => (
+                    <div key={idx} className="relative">
+                      <img 
+                        src={sdg.src} 
+                        alt={sdg.alt} 
+                        title={sdg.alt}
+                        className="w-12 h-12 object-contain rounded-md border border-white/10 shadow-lg"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
 
               {/* CTAs */}
               <div className="flex flex-col sm:flex-row items-center gap-4 mb-12">
@@ -135,7 +159,7 @@ export default function Hero() {
                 <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 w-4/5 h-4 bg-black/40 blur-md rounded-full -z-10"></div>
                 
                 <div className="relative w-[200px] sm:w-[260px] md:w-[280px] lg:w-[290px] xl:w-[320px] aspect-[9/19] pointer-events-auto">
-                  <PhoneModel3D textureUrl="/passenger.jpg" />
+                  <PhoneModel3D textureUrl="/passenger.jpg" cameraZ={8.4} />
                 </div>
               </div>
             </FadeUp>
