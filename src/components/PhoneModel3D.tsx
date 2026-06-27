@@ -3,6 +3,7 @@ import * as THREE from 'three'
 
 interface PhoneModel3DProps {
   textureUrl: string
+  cameraZ?: number
 }
 
 // Helper: create a rounded rectangle Shape
@@ -22,7 +23,7 @@ function createRoundedRectShape(w: number, h: number, r: number): THREE.Shape {
   return shape
 }
 
-export default function PhoneModel3D({ textureUrl }: PhoneModel3DProps) {
+export default function PhoneModel3D({ textureUrl, cameraZ }: PhoneModel3DProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -42,7 +43,7 @@ export default function PhoneModel3D({ textureUrl }: PhoneModel3DProps) {
 
     // Camera
     const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 100)
-    camera.position.set(0, 0, 7.5)
+    camera.position.set(0, 0, cameraZ || 7.5)
 
     // Renderer
     const renderer = new THREE.WebGLRenderer({
@@ -214,9 +215,10 @@ export default function PhoneModel3D({ textureUrl }: PhoneModel3DProps) {
       
       // Adjust camera distance based on width to prevent layout overflow on mobile
       if (window.innerWidth < 640) {
-        camera.position.z = 9.2 // Push back on mobile
+        const scaleFactor = (cameraZ || 7.5) / 7.5
+        camera.position.z = 9.2 * scaleFactor
       } else {
-        camera.position.z = 7.5
+        camera.position.z = cameraZ || 7.5
       }
       
       camera.updateProjectionMatrix()
@@ -263,7 +265,7 @@ export default function PhoneModel3D({ textureUrl }: PhoneModel3DProps) {
       screenTexture.dispose()
       renderer.dispose()
     }
-  }, [textureUrl])
+  }, [textureUrl, cameraZ])
 
   return (
     <div

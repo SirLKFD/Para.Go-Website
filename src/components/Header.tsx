@@ -63,6 +63,17 @@ export default function Header() {
     return () => { document.body.style.overflow = '' }
   }, [isMobileMenuOpen])
 
+  // Close mobile menu on desktop resize
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1280) {
+        setIsMobileMenuOpen(false)
+      }
+    }
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
   const dismissBanner = () => {
     setIsBannerVisible(false)
     sessionStorage.setItem('bannerDismissed', 'true')
@@ -112,19 +123,21 @@ export default function Header() {
 
       {/* Main Header */}
       <header 
-        className={`sticky top-0 z-40 transition-all duration-300 ${
-          isScrolled 
-            ? 'bg-[var(--color-bg)]/80 backdrop-blur-md border-b border-[var(--color-border)]' 
-            : 'bg-[var(--color-bg)] border-b border-transparent'
+        className={`fixed left-1/2 -translate-x-1/2 z-40 transition-all duration-300 flex items-center justify-between px-6 h-16 ${
+          isMobileMenuOpen
+            ? 'w-[calc(100%-2rem)] max-w-[1200px] bg-transparent border-transparent shadow-none'
+            : isScrolled
+              ? 'w-[calc(100%-2rem)] max-w-[1200px] rounded-lg bg-[var(--color-bg)]/60 backdrop-blur-md border border-[var(--color-border)] shadow-lg shadow-black/40'
+              : 'w-full max-w-none rounded-none bg-[var(--color-bg)]/60 backdrop-blur-md border-b border-[var(--color-border)]/60 shadow-none'
         }`}
+        style={{ top: isScrolled ? '1rem' : (isBannerVisible ? '2.5rem' : '0px') }}
       >
-        <div className="max-w-[1200px] mx-auto px-4 lg:px-6 h-20 flex items-center justify-between">
-          
+        <div className="w-full flex items-center justify-between">
           {/* Logo */}
           <Link
             to="/"
             resetScroll={false}
-            className="flex items-center gap-3 group shrink-0 mr-12 lg:mr-24"
+            className="flex items-center gap-3 group shrink-0 mr-8 xl:mr-16"
             onClick={(e) => {
               e.preventDefault()
               window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -132,25 +145,24 @@ export default function Header() {
               navigate({ to: '/', replace: true, resetScroll: false })
             }}
           >
-            <img src="/parago-icon.png" alt="Para.Go Logo" className="h-10 w-auto" />
+            <img src="/parago-icon.png" alt="Para.Go Logo" className="h-8 w-auto" />
           </Link>
 
           {/* Desktop Nav */}
           <nav className="hidden xl:flex items-center gap-6">
-            <div className="flex items-center gap-5">
+            <div className="flex items-center gap-2">
               {navLinks.map((link) => (
                 <a
                   key={link.id}
                   href={`/#${link.id}`}
                   onClick={(e) => handleNavClick(e, link.id)}
-                  className={`relative py-1 text-sm font-medium transition-colors hover:text-[var(--color-gold)] uppercase tracking-[0.12em] whitespace-nowrap ${
-                    activeSection === link.id ? 'text-[var(--color-gold)]' : 'text-[var(--color-muted)]'
+                  className={`px-4 py-2 text-xs font-semibold uppercase tracking-[0.12em] transition-all whitespace-nowrap rounded-lg border border-transparent ${
+                    activeSection === link.id 
+                      ? 'bg-white/10 text-[var(--color-gold)] font-bold border-white/5' 
+                      : 'text-[var(--color-muted)] hover:text-[var(--color-gold)] hover:bg-white/5'
                   }`}
                 >
                   {link.name}
-                  {activeSection === link.id && (
-                    <span className="absolute bottom-0 left-0 w-full h-[2px] bg-[var(--color-gold)] rounded-full transition-all duration-300"></span>
-                  )}
                 </a>
               ))}
             </div>
@@ -158,7 +170,7 @@ export default function Header() {
             <a 
               href="/#contact"
               onClick={(e) => handleNavClick(e, 'contact')}
-              className="bg-[var(--color-gold)] !text-[#0c0714] px-6 py-2.5 rounded-sm font-semibold hover:bg-white transition-colors uppercase tracking-[0.12em] text-xs whitespace-nowrap"
+              className="bg-[var(--color-gold)] !text-[#0c0714] px-5 py-2 rounded-md font-semibold hover:bg-white transition-colors uppercase tracking-[0.12em] text-xs whitespace-nowrap border border-[var(--color-gold)]"
             >
               Partner With Us
             </a>
@@ -166,7 +178,7 @@ export default function Header() {
 
           {/* Mobile Menu Toggle */}
           <button 
-            className="xl:hidden p-2 text-[var(--color-text)]"
+            className="xl:hidden p-2 text-[var(--color-text)] hover:bg-white/5 rounded-none"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -176,17 +188,17 @@ export default function Header() {
 
       {/* Mobile Full-Screen Drawer */}
       <div 
-        className={`fixed inset-0 z-30 bg-[var(--color-bg)] pt-24 px-6 transition-transform duration-300 xl:hidden overflow-y-auto ${
+        className={`fixed inset-0 z-30 bg-[var(--color-bg)] pt-32 px-6 transition-transform duration-300 xl:hidden overflow-y-auto ${
           isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
-        <nav className="flex flex-col gap-6">
+        <nav className="flex flex-col gap-4">
           {navLinks.map((link) => (
             <a
               key={link.id}
               href={`/#${link.id}`}
               onClick={(e) => handleNavClick(e, link.id)}
-              className="text-2xl font-display font-semibold text-[var(--color-text)] hover:text-[var(--color-gold)]"
+              className="text-xl font-display font-bold text-[var(--color-text)] hover:text-[var(--color-gold)] py-3 border-b border-[var(--color-border)] rounded-none block"
             >
               {link.name}
             </a>
@@ -194,7 +206,7 @@ export default function Header() {
           <a 
             href="/#contact"
             onClick={(e) => handleNavClick(e, 'contact')}
-            className="bg-[var(--color-gold)] !text-[#0c0714] px-6 py-4 mt-4 text-center rounded-sm font-bold text-lg hover:bg-white transition-colors uppercase tracking-[0.12em]"
+            className="bg-[var(--color-gold)] !text-[#0c0714] px-6 py-4 mt-6 text-center rounded-none font-bold text-lg hover:bg-white transition-colors uppercase tracking-[0.12em] block"
           >
             Partner With Us
           </a>
