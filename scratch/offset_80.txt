@@ -1,4 +1,0 @@
-Jeepney (Backup) offset 80: Hex: 48 c4 00 00 | LE Val: 50248 | BE Val: 1220804608
-Jeepney (Public) offset 80: Hex: 12 9e 5a 5a | LE Val: 1515888146 | BE Val: 312367706
-Module (Backup) offset 80:  Hex: 5c f5 03 00 | LE Val: 259420 | BE Val: 1559560960
-Module (Public) offset 80:  Hex: 06 af 59 5a | LE Val: 1515826950 | BE Val: 112154970
