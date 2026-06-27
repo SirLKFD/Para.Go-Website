@@ -21,10 +21,10 @@ import KickstarterVideo from '../components/KickstarterVideo'
 export const Route = createFileRoute('/')({
   head: () => ({
     meta: [
-      { title: 'Para.Go - Cebu\'s Smart Jeepney Transit System' },
+      { title: 'Para.Go: Cebu\'s Smart Jeepney Transit System' },
       { name: 'description', content: 'Cebu\'s Open Track Champion smart transit system. IoT hardware, mobile apps, and cashless fares for jeepneys.' },
       { name: 'keywords', content: 'Para.Go, parago, para go, para-go, smart jeepney, smart jeepney Cebu, modern public transport, Cebu transit tracker, cashless fare cards, CIT-University, smart transport system Philippines, modern jeepney cebu, jeepney boarding card, parago transit' },
-      { property: 'og:title', content: 'Para.Go - Cebu\'s Smart Jeepney Transit System' },
+      { property: 'og:title', content: 'Para.Go: Cebu\'s Smart Jeepney Transit System' },
       { property: 'og:description', content: 'Cebu\'s Open Track Champion smart transit system. IoT hardware, mobile apps, and cashless fares for jeepneys.' },
       { property: 'og:image', content: 'https://parago.top/og-image.png' },
       { property: 'og:image:width', content: '1200' },
@@ -32,7 +32,7 @@ export const Route = createFileRoute('/')({
       { property: 'og:image:type', content: 'image/png' },
       { property: 'og:url', content: 'https://parago.top' },
       { name: 'twitter:card', content: 'summary_large_image' },
-      { name: 'twitter:title', content: 'Para.Go - Cebu\'s Smart Jeepney Transit System' },
+      { name: 'twitter:title', content: 'Para.Go: Cebu\'s Smart Jeepney Transit System' },
       { name: 'twitter:description', content: 'Cebu\'s Open Track Champion smart transit system. IoT hardware, mobile apps, and cashless fares for jeepneys.' },
       { name: 'twitter:image', content: 'https://parago.top/og-image.png' },
     ],
