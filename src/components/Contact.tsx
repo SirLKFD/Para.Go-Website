@@ -74,7 +74,7 @@ export default function Contact() {
             <div className="space-y-4">
               {needs.map((item, idx) => (
                 <div key={idx} className="flex items-start gap-4">
-                  <span className="font-display font-bold text-xl text-[var(--color-gold)] leading-none mt-0.5">
+                  <span className="font-display font-bold text-xl text-[var(--color-gold)] leading-none mt-0.5 whitespace-nowrap shrink-0">
                     {idx + 1}.
                   </span>
                   <div>
