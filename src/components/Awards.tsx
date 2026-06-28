@@ -82,12 +82,17 @@ export default function Awards() {
           </FadeUp>
 
           <FadeUp delay={450}>
-            <div className="bg-[var(--color-surface)] border border-[var(--color-border)] p-8 rounded-xl flex flex-col justify-center items-center text-center group cursor-pointer hover:border-[var(--color-gold)]/50 transition-colors">
+            <a 
+              href="https://cit.edu/2026/06/18/cebu-solutionsfest-2026-drives-urban-solutions-innovation/" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="bg-[var(--color-surface)] border border-[var(--color-border)] p-8 rounded-xl flex flex-col justify-center items-center text-center group cursor-pointer hover:border-[var(--color-gold)]/50 transition-colors block"
+            >
               <span className="text-[var(--color-text)] font-medium mb-3">Read the full story</span>
-              <a href="https://sandbox.org.ph/solutionsfest2026?fbclid=IwY2xjawSokCJleHRuA2FlbQIxMQBzcnRjBmFwcF9pZBAyMjIwMzkxNzg4MjAwODkyAAEeST8BzjBUqXK9qzqNJWh7BIneWNv4x4IIjVpUeAZpU0eO1Dew-fLWQMT6s3M_aem_VNMTJ3xOGM_gxFy2m0dOqQ" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full bg-[var(--color-bg)] border border-[var(--color-border)] flex items-center justify-center text-[var(--color-gold)] group-hover:bg-[var(--color-gold)] group-hover:text-[#0c0714] transition-colors">
+              <div className="w-12 h-12 rounded-full bg-[var(--color-bg)] border border-[var(--color-border)] flex items-center justify-center text-[var(--color-gold)] group-hover:bg-[var(--color-gold)] group-hover:text-[#0c0714] transition-colors">
                 <ChevronRight size={20} />
-              </a>
-            </div>
+              </div>
+            </a>
           </FadeUp>
         </div>
 
