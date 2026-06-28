@@ -21,9 +21,15 @@ export default function Roadmap() {
       status: 'current' // pulsing ring
     },
     {
-      date: 'September 2026',
-      title: 'Full-Scale Commercial Rollout',
-      body: 'Full Metro Cebu deployment target. Integration with LTFRB compliance systems and LGU urban mobility dashboards.',
+      date: 'July 2026',
+      title: 'Funding, Grants & Venture Support',
+      body: 'Securing venture support, startup grants, angel investments, and institutional support to scale operations.',
+      status: 'future' // outlined circle
+    },
+    {
+      date: 'September – December 2026',
+      title: 'Hardware & Software Refinement',
+      body: 'Iterating modules based on feedback, software performance tuning, and pilot testing across additional Metro Cebu corridors.',
       status: 'future' // outlined circle
     }
   ]

@@ -149,7 +149,7 @@ export default function Hero() {
           </div>
 
           {/* Right Column: Visual Mockup */}
-          <div className="lg:col-span-5 relative w-full flex items-center justify-center lg:justify-end mt-16 lg:mt-0 perspective-1000">
+          <div className="lg:col-span-5 relative w-full flex items-center justify-center lg:justify-end -translate-y-12 lg:translate-y-0 mt-2 lg:mt-0 perspective-1000">
             
             {/* Phone Frame */}
             <FadeUp delay={300} className="relative z-20 shrink-0">

@@ -6,7 +6,7 @@ export default function BusinessModel() {
     },
     {
       title: 'Hyper-Local B2B Advertising',
-      body: 'In-app advertising and on-vehicle LED board ad spaces give local Cebu businesses a captive transit audience. Every jeepney becomes a moving billboard with audience data behind it.'
+      body: 'In-app advertising spaces give local Cebu businesses a captive transit audience. Every jeepney becomes a moving billboard with audience data behind it.'
     },
     {
       title: 'B2G Data Licensing',

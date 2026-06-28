@@ -59,7 +59,7 @@ export default function HowItWorks() {
               </div>
               <h3 className="font-display font-medium text-xl text-[var(--color-text)] mb-3">Ride</h3>
               <p className="text-[var(--color-muted)] text-[1.0625rem] leading-relaxed">
-                Track the jeepney live in the app. The IoT module monitors the cabin, adjusts the fan if it gets too warm, and updates seat counts on the LED board outside.
+                Track the jeepney live in the app. The IoT module monitors the passenger counter and updates seat counts on the exterior display.
               </p>
             </FadeUp>
 

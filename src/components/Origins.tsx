@@ -1,6 +1,6 @@
 import FadeUp from './FadeUp'
 import { useState, useEffect, useRef } from 'react'
-import { X } from 'lucide-react'
+import InteractiveModal from './InteractiveModal'
 
 export default function Origins() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
@@ -134,28 +134,12 @@ export default function Origins() {
       </div>
 
       {/* Lightbox Modal */}
-      {selectedImage && (
-        <div 
-          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex flex-col items-center justify-center p-4 lg:p-8 animate-in fade-in duration-200"
-          onClick={() => setSelectedImage(null)}
-        >
-          <button 
-            className="absolute top-4 right-4 sm:top-8 sm:right-8 text-white p-2 hover:bg-white/10 rounded-full transition-colors z-50"
-            onClick={() => setSelectedImage(null)}
-          >
-            <X size={32} />
-          </button>
-          <img 
-            src={selectedImage} 
-            alt="Expanded view" 
-            className="max-w-full max-h-[80vh] object-contain rounded-xl shadow-2xl animate-in zoom-in-95 duration-300 mb-6" 
-            onClick={(e) => e.stopPropagation()} 
-          />
-          <p className="text-white text-lg md:text-xl font-display font-medium max-w-2xl text-center px-4 animate-in slide-in-from-bottom-4 duration-500">
-            {photos.find(p => p.img === selectedImage)?.label}
-          </p>
-        </div>
-      )}
+      <InteractiveModal
+        isOpen={!!selectedImage}
+        onClose={() => setSelectedImage(null)}
+        imageSrc={selectedImage || ''}
+        title={photos.find(p => p.img === selectedImage)?.label}
+      />
     </section>
   )
 }

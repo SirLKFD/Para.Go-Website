@@ -206,11 +206,14 @@ export default function PhoneModel3D({ textureUrl, cameraZ }: PhoneModel3DProps)
     window.addEventListener('touchmove', handleTouchMove, { passive: true })
     window.addEventListener('touchend', handleTouchEnd)
 
-    // Resize — observe the canvas element (which is oversized)
-    const resizeObserver = new ResizeObserver(() => {
-      width = canvas.clientWidth
-      height = canvas.clientHeight
-      if (width === 0 || height === 0) return
+    const handleResize = () => {
+      const cWidth = container.clientWidth
+      const cHeight = container.clientHeight
+      if (cWidth === 0 || cHeight === 0) return
+
+      const offset = 120
+      const width = cWidth + offset
+      const height = cHeight + offset
       camera.aspect = width / height
       
       // Adjust camera distance based on width to prevent layout overflow on mobile
@@ -223,8 +226,19 @@ export default function PhoneModel3D({ textureUrl, cameraZ }: PhoneModel3DProps)
       
       camera.updateProjectionMatrix()
       renderer.setSize(width, height, false)
+
+      // Manually set inline styles in pixels to match WebGL resolution and prevent stretching
+      canvas.style.width = `${width}px`
+      canvas.style.height = `${height}px`
+    }
+
+    // Resize — observe the container element
+    const resizeObserver = new ResizeObserver(() => {
+      handleResize()
     })
-    resizeObserver.observe(canvas)
+    resizeObserver.observe(container)
+
+    window.addEventListener('resize', handleResize)
 
     // Animation
     let animationFrameId: number
@@ -249,6 +263,7 @@ export default function PhoneModel3D({ textureUrl, cameraZ }: PhoneModel3DProps)
     return () => {
       cancelAnimationFrame(animationFrameId)
       resizeObserver.disconnect()
+      window.removeEventListener('resize', handleResize)
       container.removeEventListener('mousedown', handleMouseDown)
       window.removeEventListener('mousemove', handleMouseMove)
       window.removeEventListener('mouseup', handleMouseUp)
