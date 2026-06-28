@@ -242,9 +242,12 @@ export default function PhoneModel3D({ textureUrl, cameraZ }: PhoneModel3DProps)
 
     // Animation
     let animationFrameId: number
+    let isVisible = false
     const clock = new THREE.Clock()
 
     const animate = () => {
+      if (!isVisible) return
+
       const t = clock.getElapsedTime()
       let idleX = 0, idleY = 0, idlePos = 0
       if (!isDragging) {
@@ -258,11 +261,25 @@ export default function PhoneModel3D({ textureUrl, cameraZ }: PhoneModel3DProps)
       renderer.render(scene, camera)
       animationFrameId = requestAnimationFrame(animate)
     }
-    animate()
+
+    const intersectionObserver = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting
+        if (isVisible) {
+          cancelAnimationFrame(animationFrameId)
+          animate()
+        } else {
+          cancelAnimationFrame(animationFrameId)
+        }
+      },
+      { threshold: 0.02 }
+    )
+    intersectionObserver.observe(container)
 
     return () => {
       cancelAnimationFrame(animationFrameId)
       resizeObserver.disconnect()
+      intersectionObserver.disconnect()
       window.removeEventListener('resize', handleResize)
       container.removeEventListener('mousedown', handleMouseDown)
       window.removeEventListener('mousemove', handleMouseMove)

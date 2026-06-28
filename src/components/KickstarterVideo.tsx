@@ -20,6 +20,7 @@ export default function KickstarterVideo() {
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [volume, setVolume] = useState(0.8)
   const [isMuted, setIsMuted] = useState(true)
+  const [bufferedProgress, setBufferedProgress] = useState(0)
 
   const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newVolume = parseFloat(e.target.value)
@@ -112,6 +113,21 @@ export default function KickstarterVideo() {
       }
     }
 
+    const handleProgress = () => {
+      if (video.buffered && video.buffered.length > 0 && video.duration) {
+        let activeBufferIndex = 0
+        const curTime = video.currentTime
+        for (let i = 0; i < video.buffered.length; i++) {
+          if (video.buffered.start(i) <= curTime && curTime <= video.buffered.end(i)) {
+            activeBufferIndex = i
+            break
+          }
+        }
+        const bufferedEnd = video.buffered.end(activeBufferIndex)
+        setBufferedProgress((bufferedEnd / video.duration) * 100)
+      }
+    }
+
     // Set immediately if already loaded
     if (video.readyState >= 1) {
       updateDuration()
@@ -120,11 +136,15 @@ export default function KickstarterVideo() {
     video.addEventListener('timeupdate', handleTimeUpdate)
     video.addEventListener('loadedmetadata', updateDuration)
     video.addEventListener('durationchange', updateDuration)
+    video.addEventListener('progress', handleProgress)
+    video.addEventListener('timeupdate', handleProgress)
 
     return () => {
       video.removeEventListener('timeupdate', handleTimeUpdate)
       video.removeEventListener('loadedmetadata', updateDuration)
       video.removeEventListener('durationchange', updateDuration)
+      video.removeEventListener('progress', handleProgress)
+      video.removeEventListener('timeupdate', handleProgress)
     }
   }, [isDraggingScrubber])
 
@@ -278,7 +298,12 @@ export default function KickstarterVideo() {
                   onMouseDown={(e) => { e.preventDefault(); e.stopPropagation(); handleProgressMouseDown(e) }}
                   onClick={(e) => e.stopPropagation()}
                 >
-                  <div className="w-full h-1.5 bg-white/20 rounded-full relative">
+                  <div className="w-full h-1.5 bg-white/10 rounded-full relative">
+                    {/* Buffered track */}
+                    <div
+                      className="absolute top-0 left-0 h-full bg-white/25 rounded-full transition-all duration-300"
+                      style={{ width: `${bufferedProgress}%` }}
+                    />
                     {/* Played track */}
                     <div
                       className="absolute top-0 left-0 h-full bg-[var(--color-gold)] rounded-full"
@@ -371,12 +396,6 @@ export default function KickstarterVideo() {
               </div>
             </div>
 
-            {/* Sound hint */}
-            <p className={`text-center text-[11px] uppercase tracking-[0.2em] text-white/30 mt-4 transition-opacity duration-500 ${
-              isPlaying ? 'opacity-0' : 'opacity-100'
-            }`}>
-              Click to play with sound
-            </p>
           </div>
         </FadeUp>
       </div>
