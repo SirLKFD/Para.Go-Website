@@ -330,6 +330,8 @@ export default function Features() {
         title={
           selectedImage === hardwareFeature.image 
             ? 'Physical IoT ESP32 Prototype Module' 
+            : selectedImage === '/passenger.jpg'
+            ? 'Passenger App'
             : 'Sleek Tablet App Mounted in Driver Cabin'
         }
       />
