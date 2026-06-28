@@ -1,5 +1,5 @@
 import { Link, useNavigate } from '@tanstack/react-router'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { Menu, X, Trophy } from 'lucide-react'
 
 export default function Header() {
@@ -8,6 +8,15 @@ export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isBannerVisible, setIsBannerVisible] = useState(true)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [isVisible, setIsVisible] = useState(true)
+
+  const isMobileMenuOpenRef = useRef(isMobileMenuOpen)
+  const [bannerHeight, setBannerHeight] = useState(0)
+  const bannerRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    isMobileMenuOpenRef.current = isMobileMenuOpen
+  }, [isMobileMenuOpen])
 
   const navLinks = [
     { name: 'Features', id: 'features' },
@@ -20,14 +29,34 @@ export default function Header() {
   ]
 
   useEffect(() => {
+    if (!isBannerVisible) {
+      setBannerHeight(0)
+      return
+    }
+
+    const updateHeight = () => {
+      if (bannerRef.current) {
+        setBannerHeight(bannerRef.current.offsetHeight)
+      }
+    }
+
+    updateHeight()
+    window.addEventListener('resize', updateHeight)
+    return () => window.removeEventListener('resize', updateHeight)
+  }, [isBannerVisible])
+
+  useEffect(() => {
     // Check session storage for banner dismissal
     const bannerDismissed = sessionStorage.getItem('bannerDismissed')
     if (bannerDismissed === 'true') {
       setIsBannerVisible(false)
     }
 
+    let lastScrollY = window.scrollY
+
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20)
+      const currentScrollY = window.scrollY
+      setIsScrolled(currentScrollY > 20)
 
       const sections = navLinks.map(link => document.getElementById(link.id))
       const allSections = [document.getElementById('home'), ...sections].filter(Boolean) as HTMLElement[]
@@ -45,6 +74,21 @@ export default function Header() {
       if (currentSection !== activeSection) {
         setActiveSection(currentSection)
       }
+
+      // Hiding logic based on scroll direction
+      if (isMobileMenuOpenRef.current) {
+        setIsVisible(true)
+      } else if (currentScrollY <= 20) {
+        setIsVisible(true)
+      } else {
+        if (currentScrollY > lastScrollY && currentScrollY > 100) {
+          setIsVisible(false) // scrolling down
+        } else if (currentScrollY < lastScrollY) {
+          setIsVisible(true) // scrolling up
+        }
+      }
+
+      lastScrollY = currentScrollY
     }
 
     window.addEventListener('scroll', handleScroll, { passive: true })
@@ -106,7 +150,10 @@ export default function Header() {
     <>
       {/* Top announcement banner */}
       {isBannerVisible && (
-        <div className="bg-[var(--color-gold)] !text-[#0c0714] px-4 py-2 text-sm font-semibold flex items-center justify-center relative z-50">
+        <div 
+          ref={bannerRef}
+          className="bg-[var(--color-gold)] !text-[#0c0714] px-4 py-2 text-sm font-semibold flex items-center justify-center relative z-50"
+        >
           <div className="flex items-center gap-2">
             <Trophy size={16} />
             <span>Open Track Champion — Cebu SolutionsFest 2026 · Organized by CCCI</span>
@@ -123,14 +170,17 @@ export default function Header() {
 
       {/* Main Header */}
       <header 
-        className={`fixed left-1/2 -translate-x-1/2 z-40 transition-all duration-300 flex items-center justify-between px-6 h-16 ${
+        className={`fixed left-1/2 z-40 transition-all duration-500 ease-in-out flex items-center justify-between px-6 h-16 ${
           isMobileMenuOpen
             ? 'w-[calc(100%-2rem)] max-w-[1200px] bg-transparent border-transparent shadow-none'
             : isScrolled
               ? 'w-[calc(100%-2rem)] max-w-[1200px] rounded-lg bg-[var(--color-bg)]/60 backdrop-blur-md border border-[var(--color-border)] shadow-lg shadow-black/40'
-              : 'w-full max-w-none rounded-none bg-[var(--color-bg)]/60 backdrop-blur-md border-b border-[var(--color-border)]/60 shadow-none'
+              : 'w-full max-w-full rounded-none bg-[var(--color-bg)]/60 backdrop-blur-md border-b border-[var(--color-border)]/60 shadow-none'
         }`}
-        style={{ top: isScrolled ? '1rem' : (isBannerVisible ? '2.5rem' : '0px') }}
+        style={{ 
+          top: isScrolled ? '1rem' : (isBannerVisible ? `${bannerHeight}px` : '0px'),
+          transform: isVisible ? 'translateX(-50%) translateY(0)' : 'translateX(-50%) translateY(-150%)'
+        }}
       >
         <div className="w-full flex items-center justify-between">
           {/* Logo */}

@@ -56,7 +56,7 @@ function AboutPage() {
               Transition to Active Service
             </h3>
             <p className="text-base text-[var(--sea-ink-soft)] leading-relaxed m-0">
-              Recognizing the daily challenges of commuting in Cebu City, our team has dedicated itself to moving this technology from the research lab to the streets. By integrating smart climate sensors, automatic passenger counting displays, and live GPS tracking, we aim to make everyday travel seamless, reliable, and convenient.
+              Recognizing the daily challenges of commuting in Cebu City, our team has dedicated itself to moving this technology from the research lab to the streets. By integrating automatic passenger counting displays and live GPS tracking, we aim to make everyday travel seamless, reliable, and convenient.
             </p>
           </div>
 

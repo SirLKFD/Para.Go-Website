@@ -142,24 +142,31 @@ export default function ModuleModel3D() {
     window.addEventListener('touchmove', handleTouchMove, { passive: true })
     window.addEventListener('touchend', handleTouchEnd)
 
-    // Resize Canvas Listener
-    const resizeObserver = new ResizeObserver(() => {
-      width = canvas.clientWidth
-      height = canvas.clientHeight
-      if (width === 0 || height === 0) return
-      camera.aspect = width / height
+    const handleResize = () => {
+      const cWidth = container.clientWidth
+      const cHeight = container.clientHeight
+      if (cWidth === 0 || cHeight === 0) return
+
+      camera.aspect = cWidth / cHeight
       
       // Adjust camera distance based on width to prevent layout overflow on mobile
       if (window.innerWidth < 640) {
-        camera.position.z = 10.0 // Push back on mobile
+        camera.position.z = 10.0
       } else {
         camera.position.z = 8.5
       }
       
       camera.updateProjectionMatrix()
-      renderer.setSize(width, height, false)
+      renderer.setSize(cWidth, cHeight, true)
+    }
+
+    // Resize Container Listener
+    const resizeObserver = new ResizeObserver(() => {
+      handleResize()
     })
-    resizeObserver.observe(canvas)
+    resizeObserver.observe(container)
+
+    window.addEventListener('resize', handleResize)
 
     // Animation Loop
     let animationFrameId: number
@@ -186,6 +193,7 @@ export default function ModuleModel3D() {
     return () => {
       cancelAnimationFrame(animationFrameId)
       resizeObserver.disconnect()
+      window.removeEventListener('resize', handleResize)
       container.removeEventListener('mousedown', handleMouseDown)
       window.removeEventListener('mousemove', handleMouseMove)
       window.removeEventListener('mouseup', handleMouseUp)

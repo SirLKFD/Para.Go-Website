@@ -5,6 +5,7 @@ import PhoneModel3D from './PhoneModel3D'
 import TabletModel3D from './TabletModel3D'
 import ModuleModel3D from './ModuleModel3D'
 import JeepneyModel3D from './JeepneyModel3D'
+import InteractiveModal from './InteractiveModal'
 
 export default function Features() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
@@ -50,10 +51,12 @@ export default function Features() {
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [isRendered])
 
+
+
   const hardwareFeature = {
     icon: <Cpu size={28} />,
     title: 'Smart Jeepney Module',
-    body: 'An ESP32 unit installed inside the jeepney. Reads RFID cards, monitors cabin temperature every 3 seconds, auto-controls the ventilation fan, updates the LED destination board with live capacity, and streams GPS coordinates to the cloud continuously.',
+    body: 'An ESP32 unit installed inside the jeepney. Reads RFID cards, monitors passenger counter, and streams GPS coordinates to the system.',
     image: '/rfidunit.jpg'
   }
 
@@ -108,10 +111,6 @@ export default function Features() {
                 <li className="flex items-start gap-3">
                   <span className="text-[var(--color-gold)] font-bold mt-0.5">•</span>
                   <span><strong>NFC Cashless Fare:</strong> Seamless tap-to-board transaction processing via on-board RFID reader.</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-[var(--color-gold)] font-bold mt-0.5">•</span>
-                  <span><strong>Smart Cabin Climate:</strong> Automated passenger cabin fan control triggering on real-time temperature sensors.</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-[var(--color-gold)] font-bold mt-0.5">•</span>
@@ -229,7 +228,7 @@ export default function Features() {
                 Driver Dashboard
               </h3>
               <p className="text-[var(--color-muted)] text-[1.0625rem] leading-relaxed mb-6">
-                A tablet app mounted in the cabin. Shows live passenger count, cabin temperature, total earnings, trip log, and real-time RFID events. Drivers get the information they need without lifting a finger.
+                A tablet app mounted in the cabin. Shows live passenger count, total earnings, trip log, and real-time RFID events. Drivers get the information they need without lifting a finger.
               </p>
 
               {/* Driver specifications list */}
@@ -244,7 +243,7 @@ export default function Features() {
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-[var(--color-gold)] font-bold mt-0.5">•</span>
-                  <span><strong>Trip & Analytics Feed:</strong> Track daily earnings, passenger totals, and temperature metrics.</span>
+                  <span><strong>Trip & Analytics Feed:</strong> Track daily earnings and passenger totals.</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-[var(--color-gold)] font-bold mt-0.5">•</span>
@@ -298,14 +297,14 @@ export default function Features() {
                 Connected Vehicle Integration
               </h3>
               <p className="text-[var(--color-muted)] text-[1.125rem] leading-relaxed mb-8 max-w-[700px] mx-auto">
-                See how all components unite in the physical vehicle. The Smart Jeepney Module coordinates real-time cabin metrics, NFC transaction feeds, and GPS positions, publishing capacity counts directly to the exterior LED display and syncing with the driver and operator dashboards.
+                See how all components unite in the physical vehicle. The Smart Jeepney Module coordinates real-time passenger counts, NFC transaction feeds, and GPS positions, publishing capacity counts directly to the exterior display and syncing with the driver and operator dashboards.
               </p>
 
               {/* Specs Grid below text */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left max-w-[750px] mx-auto text-[0.95rem] text-[var(--color-muted)]">
                 <div className="bg-[var(--color-surface)] border-t-2 border-t-[var(--color-gold)] p-5 rounded-sm">
                   <h4 className="font-bold text-[var(--color-text)] mb-2">Cabin Placement</h4>
-                  <p>The core module fits securely within the driver's reach, processing sensory readings, NFC transactions, and GPS tracking.</p>
+                  <p>The core module fits securely within the driver's reach, processing NFC transactions and GPS tracking.</p>
                 </div>
                 <div className="bg-[var(--color-surface)] border-t-2 border-t-[var(--color-gold)] p-5 rounded-sm">
                   <h4 className="font-bold text-[var(--color-text)] mb-2">Exterior Capacity Board</h4>
@@ -313,7 +312,7 @@ export default function Features() {
                 </div>
                 <div className="bg-[var(--color-surface)] border-t-2 border-t-[var(--color-gold)] p-5 rounded-sm">
                   <h4 className="font-bold text-[var(--color-text)] mb-2">Unified Data Loop</h4>
-                  <p>Streams telemetry data to the operator dashboards, syncing passenger counts, trip progress, and cabin temperature.</p>
+                  <p>Streams telemetry data to the operator dashboards, syncing passenger counts and trip progress.</p>
                 </div>
               </div>
             </FadeUp>
@@ -324,42 +323,16 @@ export default function Features() {
       </div>
 
       {/* Lightbox / Modal overlay with smooth fade-in/out backdrop */}
-      {isRendered && modalType && (
-        <div 
-          className={`fixed inset-0 z-50 flex flex-col items-center justify-center p-4 sm:p-8 transition-all duration-400 ease-out cursor-zoom-out ${
-            isTransitioning 
-              ? 'bg-black/0 backdrop-blur-none' 
-              : 'bg-black/95 backdrop-blur-xl'
-          }`}
-          onClick={closeModal}
-        >
-          {/* Close button with smooth fade/scale */}
-          <button 
-            className={`absolute top-4 right-4 sm:top-8 sm:right-8 text-white p-2 hover:bg-white/10 rounded-full transition-all duration-300 ease-out z-50 cursor-pointer ${
-              isTransitioning 
-                ? 'opacity-0 scale-75' 
-                : 'opacity-100 scale-100'
-            }`}
-            onClick={closeModal}
-          >
-            <X size={32} />
-          </button>
-
-          {/* Lightbox Image Modal */}
-          {modalType === 'image' && selectedImage && (
-            <img 
-              src={selectedImage} 
-              alt="Expanded view" 
-              className={`max-w-full max-h-[90vh] object-contain rounded-xl shadow-2xl transition-all duration-400 ease-out cursor-default ${
-                isTransitioning 
-                  ? 'opacity-0 scale-90 translate-y-4' 
-                  : 'opacity-100 scale-100 translate-y-0'
-              }`}
-              onClick={(e) => e.stopPropagation()} 
-            />
-          )}
-        </div>
-      )}
+      <InteractiveModal
+        isOpen={isRendered && modalType === 'image'}
+        onClose={closeModal}
+        imageSrc={selectedImage || ''}
+        title={
+          selectedImage === hardwareFeature.image 
+            ? 'Physical IoT ESP32 Prototype Module' 
+            : 'Sleek Tablet App Mounted in Driver Cabin'
+        }
+      />
     </section>
   )
 }
