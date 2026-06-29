@@ -2,7 +2,7 @@ export default function BusinessModel() {
   const columns = [
     {
       title: 'FinTech Micro-Transactions',
-      body: 'Every RFID tap generates a small processing fee. At 3.5 million daily trips, micro-transactions at scale become a significant, reliable revenue stream with near-zero marginal cost.'
+      body: 'Every account cash-in generates a small processing fee. With 3.5 million daily commuters in Metro Cebu, loading credits onto their RFID cards compiles transaction fees at scale into a reliable, recurring revenue stream with near-zero marginal cost.'
     },
     {
       title: 'Hyper-Local B2B Advertising',

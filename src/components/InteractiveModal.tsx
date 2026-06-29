@@ -16,6 +16,21 @@ export default function InteractiveModal({ isOpen, onClose, imageSrc, title }: I
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 })
   const [isMounted, setIsMounted] = useState(false)
   const [isAnimating, setIsAnimating] = useState(false)
+  const [displayImageSrc, setDisplayImageSrc] = useState(imageSrc)
+  const [displayTitle, setDisplayTitle] = useState(title)
+
+  // Sync display state when props are present, so they don't blank out on close
+  useEffect(() => {
+    if (imageSrc) {
+      setDisplayImageSrc(imageSrc)
+    }
+  }, [imageSrc])
+
+  useEffect(() => {
+    if (title) {
+      setDisplayTitle(title)
+    }
+  }, [title])
   
   const imgRef = useRef<HTMLImageElement>(null)
 
@@ -192,8 +207,8 @@ export default function InteractiveModal({ isOpen, onClose, imageSrc, title }: I
         >
           <img
             ref={imgRef}
-            src={imageSrc}
-            alt={title || "Expanded view"}
+            src={displayImageSrc}
+            alt={displayTitle || "Expanded view"}
             onDoubleClick={handleDoubleClick}
             onMouseDown={handleMouseDown}
             onTouchStart={handleTouchStart}
@@ -210,12 +225,12 @@ export default function InteractiveModal({ isOpen, onClose, imageSrc, title }: I
       </div>
 
       {/* Description / Caption Footer */}
-      {title && (
+      {displayTitle && (
         <div className={`mt-4 text-center z-40 transition-all duration-500 delay-100 ${
           isAnimating ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
         }`}>
           <p className="text-white text-base md:text-lg font-display font-medium max-w-2xl px-6 py-2 rounded-full bg-black/60 border border-white/5 backdrop-blur-md">
-            {title}
+            {displayTitle}
           </p>
         </div>
       )}

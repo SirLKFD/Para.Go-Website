@@ -30,13 +30,9 @@ export default function Features() {
   }
 
   const closeModal = () => {
-    setIsTransitioning(true)
-    setTimeout(() => {
-      setModalType(null)
-      setSelectedImage(null)
-      setIsRendered(false)
-      setIsTransitioning(false)
-    }, 400) // Match transition duration (400ms)
+    setModalType(null)
+    setSelectedImage(null)
+    setIsRendered(false)
   }
 
   useEffect(() => {
