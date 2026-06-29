@@ -4,18 +4,6 @@ import InteractiveModal from './InteractiveModal'
 
 export default function Origins() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
-  const [inView, setInView] = useState(false)
-  const containerRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        setTimeout(() => setInView(true), 300)
-      }
-    }, { threshold: 0.3 })
-    if (containerRef.current) observer.observe(containerRef.current)
-    return () => observer.disconnect()
-  }, [])
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -92,40 +80,25 @@ export default function Origins() {
             </div>
           </FadeUp>
 
-          {/* Right Column: Photo Fan Gallery */}
-          <div className="flex justify-center items-center h-full min-h-[400px] w-full overflow-visible perspective-1000" ref={containerRef}>
-            <div className="flex justify-center items-center group/container">
-              {photos.map((photo, i) => {
-                const rotations = ['-rotate-6', '-rotate-2', 'rotate-2', 'rotate-6']
-                
-                // Stack exactly on top of each other when not in view
-                const mlClass = inView 
-                  ? (i === 0 ? 'ml-0' : '-ml-12 sm:-ml-16 md:-ml-20')
-                  : (i === 0 ? 'ml-0' : '-ml-[128px] sm:-ml-[160px] md:-ml-[192px]')
-                  
-                const rotationClass = inView ? rotations[i] : 'rotate-0'
-
-                return (
+          {/* Right Column: Photo Grid (similar to SolutionsFest layout) */}
+          <div className="w-full">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
+              {photos.map((photo, i) => (
+                <FadeUp key={photo.id} delay={150 * (i + 1)}>
                   <div 
-                    key={photo.id} 
-                    className={`relative ${mlClass} group/card hover:z-50`}
-                    style={{ zIndex: i + 10, transition: 'margin 1s cubic-bezier(0.25, 1, 0.5, 1)' }}
+                    className="rounded-xl overflow-hidden shadow-lg border border-[var(--color-border)] h-56 sm:h-48 md:h-56 cursor-pointer group"
                     onClick={() => photo.img && setSelectedImage(photo.img)}
                   >
-                    <div 
-                      className={`w-32 sm:w-40 md:w-48 aspect-[4/5] rounded-xl overflow-hidden shadow-[0_20px_40px_rgba(0,0,0,0.4)] transition-all duration-1000 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover/card:-translate-y-8 sm:group-hover/card:-translate-y-12 group-hover/card:scale-[1.15] group-hover/card:!rotate-0 cursor-pointer ${rotationClass}`}
-                    >
-                      {photo.img && (
-                        <img 
-                          src={photo.img} 
-                          alt={photo.label} 
-                          className="w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-110" 
-                        />
-                      )}
-                    </div>
+                    {photo.img && (
+                      <img 
+                        src={photo.img} 
+                        alt={photo.label} 
+                        className="w-full h-full object-cover transition-transform duration-500 hover:scale-105" 
+                      />
+                    )}
                   </div>
-                )
-              })}
+                </FadeUp>
+              ))}
             </div>
           </div>
 
