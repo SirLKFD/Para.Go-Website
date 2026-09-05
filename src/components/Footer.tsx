@@ -1,4 +1,4 @@
-import { Facebook } from 'lucide-react'
+import FacebookIcon from './FacebookIcon'
 
 export default function Footer() {
   const sdgs = [
@@ -80,7 +80,7 @@ export default function Footer() {
                 className="w-10 h-10 rounded-full bg-[var(--color-surface)] border border-[var(--color-border)] flex items-center justify-center text-[var(--color-text)] hover:!text-[#0c0714] hover:bg-[var(--color-gold)] hover:border-[var(--color-gold)] transition-all"
                 aria-label="Facebook"
               >
-                <Facebook size={18} />
+                <FacebookIcon size={18} />
               </a>
             </div>
           </div>

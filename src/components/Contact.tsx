@@ -1,11 +1,9 @@
-import { Mail, MapPin, Facebook, Send, CheckCircle, AlertCircle, Loader2 } from 'lucide-react'
-import { useState } from 'react'
+import { Mail, MapPin, Send } from 'lucide-react'
+import FacebookIcon from './FacebookIcon'
+
+const CONTACT_EMAIL = 'lordkentdinampo@gmail.com'
 
 export default function Contact() {
-  const [formData, setFormData] = useState({ name: '', org: '', email: '', message: '' })
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
-  const [errorMsg, setErrorMsg] = useState('')
-
   const needs = [
     {
       title: 'Partnerships',
@@ -24,35 +22,6 @@ export default function Contact() {
       body: 'Capital for hardware deployment and commercial rollout'
     }
   ]
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    
-    if (!formData.name.trim()) {
-      setStatus('error')
-      setErrorMsg('Please enter your name.')
-      return
-    }
-    if (!formData.email.trim() || !/\S+@\S+\.\S+/.test(formData.email)) {
-      setStatus('error')
-      setErrorMsg('Please enter a valid email address.')
-      return
-    }
-    if (!formData.message.trim()) {
-      setStatus('error')
-      setErrorMsg('Please enter your message.')
-      return
-    }
-
-    setStatus('loading')
-    setErrorMsg('')
-
-    // Simulate sending message API delay
-    setTimeout(() => {
-      setStatus('success')
-      setFormData({ name: '', org: '', email: '', message: '' })
-    }, 1500)
-  }
 
   return (
     <section id="contact" className="py-24  transition-colors duration-1000">
@@ -98,8 +67,8 @@ export default function Contact() {
                 </div>
                 <div>
                   <h4 className="font-sans font-semibold text-[0.75rem] uppercase tracking-[0.12em] text-[var(--color-muted)] mb-1">Email</h4>
-                  <a href="mailto:info@parago.top" className="text-[var(--color-text)] font-medium text-lg hover:text-[var(--color-gold)] transition-colors">
-                    info@parago.top
+                  <a href={`mailto:${CONTACT_EMAIL}`} className="text-[var(--color-text)] font-medium text-lg hover:text-[var(--color-gold)] transition-colors">
+                    {CONTACT_EMAIL}
                   </a>
                 </div>
               </div>
@@ -118,7 +87,7 @@ export default function Contact() {
 
               <div className="flex items-start gap-4">
                 <div className="w-12 h-12 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-full flex items-center justify-center text-[var(--color-gold)] shrink-0">
-                  <Facebook size={20} />
+                  <FacebookIcon size={20} />
                 </div>
                 <div>
                   <h4 className="font-sans font-semibold text-[0.75rem] uppercase tracking-[0.12em] text-[var(--color-muted)] mb-1">Social</h4>
@@ -135,111 +104,33 @@ export default function Contact() {
             </div>
           </div>
 
-          {/* Right Column: HTML Form or Success Message */}
+          {/* Right Column: Send Us a Message CTA */}
           <div>
-            {status === 'success' ? (
-              <div className="bg-[var(--color-surface)] border border-[var(--color-gold)] p-8 rounded-xl flex flex-col items-center text-center justify-center min-h-[400px] h-full transition-all">
-                <div className="w-16 h-16 bg-[var(--color-gold)]/10 rounded-full flex items-center justify-center text-[var(--color-gold)] mb-6">
-                  <CheckCircle size={36} />
-                </div>
-                <h3 className="font-display font-semibold text-2xl text-[var(--color-text)] mb-3">
-                  Message Sent!
-                </h3>
-                <p className="text-[var(--color-muted)] text-[1rem] leading-relaxed max-w-md mb-8">
-                  Thank you for reaching out! Your partnership request has been submitted to <strong>info@parago.top</strong>. Our team will review your message and get back to you shortly.
-                </p>
-                <button
-                  onClick={() => setStatus('idle')}
-                  className="bg-transparent border border-[var(--color-gold)] text-[var(--color-gold)] hover:bg-[var(--color-gold)] hover:text-[#0c0714] px-6 py-3 rounded-sm font-semibold text-xs tracking-wider uppercase transition-colors"
-                >
-                  Send Another Message
-                </button>
+            <div className="bg-[var(--color-surface)] border border-[var(--color-border)] p-8 rounded-xl flex flex-col items-center text-center justify-center min-h-[400px] h-full">
+              <div className="w-16 h-16 bg-[var(--color-gold)]/10 rounded-full flex items-center justify-center text-[var(--color-gold)] mb-6">
+                <Mail size={36} />
               </div>
-            ) : (
-              <form className="bg-[var(--color-surface)] border border-[var(--color-border)] p-8 rounded-xl" onSubmit={handleSubmit}>
-                <div className="space-y-6">
-                  
-                  {status === 'error' && (
-                    <div className="flex items-center gap-3 bg-red-500/10 border border-red-500/20 text-red-500 px-4 py-3 rounded-sm text-sm">
-                      <AlertCircle size={18} className="shrink-0" />
-                      <span>{errorMsg}</span>
-                    </div>
-                  )}
-
-                  <div>
-                    <label htmlFor="name" className="block text-[0.875rem] text-[var(--color-text)] mb-2 font-medium">Name</label>
-                    <input 
-                      type="text" 
-                      id="name" 
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      disabled={status === 'loading'}
-                      className="w-full bg-[#0c0714] border border-[var(--color-border)] rounded-sm px-4 py-3 text-[var(--color-text)] placeholder-[var(--color-muted)]/50 focus:outline-none focus:border-[var(--color-gold)] focus:ring-1 focus:ring-[var(--color-gold)] transition-all disabled:opacity-50"
-                      placeholder="Juan Dela Cruz"
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="org" className="block text-[0.875rem] text-[var(--color-text)] mb-2 font-medium">Organization</label>
-                    <input 
-                      type="text" 
-                      id="org" 
-                      value={formData.org}
-                      onChange={(e) => setFormData({ ...formData, org: e.target.value })}
-                      disabled={status === 'loading'}
-                      className="w-full bg-[#0c0714] border border-[var(--color-border)] rounded-sm px-4 py-3 text-[var(--color-text)] placeholder-[var(--color-muted)]/50 focus:outline-none focus:border-[var(--color-gold)] focus:ring-1 focus:ring-[var(--color-gold)] transition-all disabled:opacity-50"
-                      placeholder="Company or Cooperative"
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="email" className="block text-[0.875rem] text-[var(--color-text)] mb-2 font-medium">Email</label>
-                    <input 
-                      type="email" 
-                      id="email" 
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      disabled={status === 'loading'}
-                      className="w-full bg-[#0c0714] border border-[var(--color-border)] rounded-sm px-4 py-3 text-[var(--color-text)] placeholder-[var(--color-muted)]/50 focus:outline-none focus:border-[var(--color-gold)] focus:ring-1 focus:ring-[var(--color-gold)] transition-all disabled:opacity-50"
-                      placeholder="juan@example.com"
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="message" className="block text-[0.875rem] text-[var(--color-text)] mb-2 font-medium">Message</label>
-                    <textarea 
-                      id="message" 
-                      rows={4}
-                      value={formData.message}
-                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                      disabled={status === 'loading'}
-                      className="w-full bg-[#0c0714] border border-[var(--color-border)] rounded-sm px-4 py-3 text-[var(--color-text)] placeholder-[var(--color-muted)]/50 focus:outline-none focus:border-[var(--color-gold)] focus:ring-1 focus:ring-[var(--color-gold)] transition-all resize-y disabled:opacity-50"
-                      placeholder="How can we partner together?"
-                    ></textarea>
-                  </div>
-
-                  <button 
-                    type="submit"
-                    disabled={status === 'loading'}
-                    className="w-full flex items-center justify-center gap-2 bg-[var(--color-gold)] !text-[#0c0714] px-6 py-4 rounded-sm font-bold tracking-wider uppercase transition-colors hover:bg-white disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed"
-                  >
-                    {status === 'loading' ? (
-                      <>
-                        <Loader2 size={18} className="animate-spin" />
-                        Sending...
-                      </>
-                    ) : (
-                      <>
-                        <Send size={18} />
-                        Send Message
-                      </>
-                    )}
-                  </button>
-
-                </div>
-              </form>
-            )}
+              <h3 className="font-display font-semibold text-2xl text-[var(--color-text)] mb-3">
+                Send Us a Message
+              </h3>
+              <p className="text-[var(--color-muted)] text-[1rem] leading-relaxed max-w-md mb-8">
+                Interested in partnering with Para.Go? Reach out to us via email and our team will get back to you shortly.
+              </p>
+              <a
+                href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent('Para.Go Partnership Inquiry')}`}
+                className="inline-flex items-center justify-center gap-2 bg-[var(--color-gold)] !text-[#0c0714] px-8 py-4 rounded-sm font-bold tracking-wider uppercase transition-colors hover:bg-white cursor-pointer"
+              >
+                <Send size={18} />
+                Open Email Client
+              </a>
+            </div>
           </div>
+
+          {/* 
+            TODO: Re-enable the inline contact form once a backend email service 
+            (e.g., EmailJS or a Cloud Function) is set up. The previous form code 
+            has been removed — see git history for the original implementation.
+          */}
 
         </div>
 

@@ -9,11 +9,20 @@
     "cleanUrls": true,
     "headers": [
       {
+        "source": "og-image.png",
+        "headers": [
+          {
+            "key": "Cross-Origin-Resource-Policy",
+            "value": "cross-origin"
+          }
+        ]
+      },
+      {
         "source": "**",
         "headers": [
           {
             "key": "Content-Security-Policy",
-            "value": "default-src 'self'; media-src 'self' https://res.cloudinary.com; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; img-src 'self' data: https://*.basemaps.cartocdn.com https://upload.wikimedia.org; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://*.basemaps.cartocdn.com; frame-ancestors 'none'; form-action 'self'; base-uri 'self';"
+            "value": "default-src 'self'; media-src 'self' https://res.cloudinary.com; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://static.cloudflareinsights.com https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://unpkg.com; img-src 'self' data: https://upload.wikimedia.org; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://tiles.openfreemap.org; worker-src 'self' blob:; frame-ancestors 'none'; form-action 'self'; base-uri 'self';"
           },
           {
             "key": "X-Frame-Options",

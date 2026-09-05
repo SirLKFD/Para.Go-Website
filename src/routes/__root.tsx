@@ -81,6 +81,10 @@ export const Route = createRootRoute({
         href: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css',
       },
       {
+        rel: 'stylesheet',
+        href: 'https://unpkg.com/maplibre-gl@5/dist/maplibre-gl.css',
+      },
+      {
         rel: 'icon',
         href: '/favicon.ico',
       },
@@ -164,6 +168,8 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <head>
         <HeadContent />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+        <script src="https://unpkg.com/maplibre-gl@5/dist/maplibre-gl.js"></script>
+        <script src="https://unpkg.com/@maplibre/maplibre-gl-leaflet/leaflet-maplibre-gl.js"></script>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
