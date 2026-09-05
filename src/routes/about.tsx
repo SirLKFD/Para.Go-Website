@@ -1,5 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { Facebook, ChevronRight } from 'lucide-react'
+import { ChevronRight } from 'lucide-react'
+import FacebookIcon from '../components/FacebookIcon'
 
 export const Route = createFileRoute('/about')({
   head: () => ({
@@ -100,7 +101,7 @@ function AboutPage() {
                 className="inline-flex items-center justify-between w-full bg-[#fcd116] text-[#0c0714] px-4 py-3 text-xs font-black uppercase tracking-wider hover:bg-white hover:text-[#0c0714] transition"
               >
                 <span className="flex items-center gap-2">
-                  <Facebook className="h-4 w-4" />
+                  <FacebookIcon className="h-4 w-4" />
                   Follow our progress
                 </span>
                 <ChevronRight className="h-4 w-4" />

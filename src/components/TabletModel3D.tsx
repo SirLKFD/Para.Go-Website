@@ -240,12 +240,13 @@ export default function TabletModel3D({ textureUrl }: TabletModel3DProps) {
     // Animation
     let animationFrameId: number
     let isVisible = false
-    const clock = new THREE.Clock()
+    const timer = new THREE.Timer()
 
     const animate = () => {
       if (!isVisible) return
 
-      const t = clock.getElapsedTime()
+      timer.update()
+      const t = timer.getElapsed()
       let idleX = 0, idleY = 0, idlePos = 0
       if (!isDragging) {
         idleX = Math.cos(t * 0.7) * 0.02

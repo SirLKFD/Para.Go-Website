@@ -34,9 +34,19 @@ export default function Hero() {
       keyboard: false
     }).setView(centers[1].coords, 14) // Center at Fuente Osmeña
 
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png', {
-      maxZoom: 20
+    const glLayer = L.maplibreGL({
+      style: 'https://tiles.openfreemap.org/styles/dark'
     }).addTo(mapInstance)
+
+    // Suppress missing sprite warnings (e.g. "wood-pattern") by providing
+    // a transparent 1x1 placeholder — these patterns are invisible under
+    // the heavy vignette overlay anyway.
+    const gl = glLayer.getMaplibreMap()
+    gl.on('styleimagemissing', (e: any) => {
+      if (!gl.hasImage(e.id)) {
+        gl.addImage(e.id, { width: 1, height: 1, data: new Uint8Array(4) })
+      }
+    })
 
     let angle = 0
     const centerLat = 10.3164 // Fuente Osmeña (central Cebu City)

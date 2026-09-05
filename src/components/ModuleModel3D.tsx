@@ -170,10 +170,11 @@ export default function ModuleModel3D() {
 
     // Animation Loop
     let animationFrameId: number
-    const clock = new THREE.Clock()
+    const timer = new THREE.Timer()
 
     const animate = () => {
-      const t = clock.getElapsedTime()
+      timer.update()
+      const t = timer.getElapsed()
       
       if (!isDragging) {
         // Slow continuous idle rotation

@@ -243,12 +243,13 @@ export default function PhoneModel3D({ textureUrl, cameraZ }: PhoneModel3DProps)
     // Animation
     let animationFrameId: number
     let isVisible = false
-    const clock = new THREE.Clock()
+    const timer = new THREE.Timer()
 
     const animate = () => {
       if (!isVisible) return
 
-      const t = clock.getElapsedTime()
+      timer.update()
+      const t = timer.getElapsed()
       let idleX = 0, idleY = 0, idlePos = 0
       if (!isDragging) {
         idleX = Math.sin(t * 0.8) * 0.03
